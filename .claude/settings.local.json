@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm --version)",
+      "Bash(npx --version)",
+      "Read(//Users/user/**)",
+      "Read(//opt/**)",
+      "Read(//Applications/**)",
+      "Bash(mdfind -name \"node\")",
+      "Bash(grep -E \"/bin/node$\")",
+      "Bash(brew list:*)",
+      "Bash(brew --version)",
+      "Bash(/usr/local/bin/brew --version)",
+      "Bash(/opt/homebrew/bin/brew --version)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npx shadcn@latest:*)"
+    ]
+  }
+}
