@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Design Directory
 
-## Getting Started
+A polished, editorial design showcase — browse credited design projects, discover talented designers by location and specialty, and read articles on design craft.
 
-First, run the development server:
+---
+
+## What it does
+
+**For visitors:**
+- Browse a filterable grid of design projects across six categories (Branding, Web, Motion, Print, Product, UX)
+- Read full project case studies with credits, tools, and agency info
+- Find designers by name, specialty, availability, experience level, and location
+- Read a blog covering branding, UX, typography, motion, and process
+
+**For designers:**
+- Dedicated profile pages with portfolio, bio, skills, contact links, and awards
+- Projects link back to the designer who made them
+
+---
+
+## Tech stack
+
+| Layer | Choice |
+|---|---|
+| Framework | Next.js 16.2.3 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Components | shadcn/ui + Base UI |
+| Font | Geist Sans / Geist Mono |
+| Icons | Lucide React |
+| Data (dev) | JSON flat files (`data/`) |
+| ORM (prod) | Prisma — SQLite (dev) / PostgreSQL (prod) |
+| Deployment | Vercel |
+
+---
+
+## Running locally
+
+**Prerequisites:** Node.js 18+, npm
 
 ```bash
+# Install dependencies
+npm install
+
+# Start the dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Other commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build        # Production build
+npm run start        # Serve the production build
+npm run lint         # ESLint
+npm test             # Vitest unit tests (run once)
+npm run test:watch   # Vitest in watch mode
 
-## Learn More
+# Database (only needed when switching to Prisma)
+npm run db:migrate   # Run pending migrations
+npm run db:seed      # Seed the database from data/ JSON files
+npm run db:studio    # Open Prisma Studio
+npm run db:reset     # Drop and re-seed (destructive)
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Page structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route | Type | Description |
+|---|---|---|
+| `/` | Static | Landing page — hero, about, services, blog preview |
+| `/projects` | Dynamic | Filterable project feed (category + sort via search params) |
+| `/projects/[slug]` | SSG | Project detail — hero, body, credits block, related projects |
+| `/designers` | Dynamic | Searchable designer directory with sidebar filters |
+| `/designers/[slug]` | SSG | Designer profile — bio, portfolio gallery, skills, contact |
+| `/blog` | Static | Blog index with featured post and article grid |
+| `/blog/[slug]` | SSG | Blog post — article body, author byline, related posts |
 
-## Deploy on Vercel
+**Static** — fully pre-rendered at build time.  
+**SSG** — pre-rendered for every slug via `generateStaticParams`.  
+**Dynamic** — server-rendered on demand (reads `searchParams` for filtering/search).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Seed data
+
+The `data/` directory contains JSON used in development. No database is required to run locally.
+
+| File | Records |
+|---|---|
+| `data/projects.json` | 16 design projects |
+| `data/designers.json` | 20 designer profiles |
+| `data/posts.json` | 8 blog posts |
+
+---
+
+## Folder structure
+
+```
+design-directory/
+├── app/                    # Next.js App Router pages
+│   ├── layout.tsx          # Root layout (SiteHeader + SiteFooter)
+│   ├── page.tsx            # Landing page (/)
+│   ├── projects/           # /projects + /projects/[slug]
+│   ├── designers/          # /designers + /designers/[slug]
+│   └── blog/               # /blog + /blog/[slug]
+├── components/
+│   ├── layout/             # SiteHeader, SiteFooter, PageWrapper
+│   ├── landing/            # HeroSection, AboutSection, ServicesSection, BlogPreviewSection
+│   ├── projects/           # ProjectCard, ProjectGrid, ProjectFilters, CreditsBlock, etc.
+│   ├── designers/          # DesignerCard, DesignerGrid, SearchBar, FilterPanel, etc.
+│   ├── blog/               # BlogCard, BlogGrid, AuthorByline
+│   └── ui/                 # shadcn/ui primitives
+├── lib/
+│   ├── data/               # Data access layer — projects.ts, designers.ts, posts.ts
+│   │   └── __tests__/      # Vitest unit tests
+│   ├── __tests__/          # Vitest unit tests for utils
+│   ├── prisma.ts           # Prisma client singleton
+│   └── utils.ts            # cn() class-merge utility
+├── data/                   # JSON seed data
+├── prisma/
+│   └── schema.prisma       # Prisma schema (SQLite dev / PostgreSQL prod)
+└── public/                 # Static assets
+```
