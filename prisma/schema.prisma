@@ -1,0 +1,83 @@
+// Prisma schema — SQLite for development, swap provider to "postgresql" for production
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Designer ----------
+
+model Designer {
+  id                  String    @id @default(cuid())
+  slug                String    @unique
+  name                String
+  title               String
+  bio                 String
+  avatarColor         String
+  initials            String
+  // Location stored flat (no JSON arrays in SQLite)
+  locationCity        String
+  locationCountry     String
+  locationCountryCode String
+  // Availability / experience
+  availability        String    // "available" | "freelance" | "unavailable"
+  experienceLevel     String    // "junior" | "mid" | "senior"
+  // Contact fields flat
+  contactEmail        String    @default("")
+  contactWebsite      String    @default("")
+  contactLinkedin     String    @default("")
+  contactInstagram    String    @default("")
+  contactBehance      String    @default("")
+  contactDribbble     String    @default("")
+  // Arrays stored as JSON strings (SQLite has no native array type)
+  specialties         String    // JSON: string[]
+  tools               String    // JSON: string[]
+  agencyAffiliations  String    // JSON: string[]
+  awards              String    // JSON: string[]
+  createdAt           DateTime  @default(now())
+
+  projects            Project[]
+}
+
+// ---------- Project ----------
+
+model Project {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  description    String
+  body           String
+  thumbnailColor String
+  category       String   // "Branding" | "Web" | "Motion" | "Print" | "Product" | "UX"
+  tags           String   // JSON: string[]
+  year           Int
+  agencyName     String   @default("")
+  agencyUrl      String   @default("")
+  sourceUrl      String   @default("")
+  featured       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  designerId     String
+  designer       Designer @relation(fields: [designerId], references: [id])
+}
+
+// ---------- BlogPost ----------
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  body        String
+  category    String
+  authorName  String
+  authorTitle String
+  readTime    String
+  featured    Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+}

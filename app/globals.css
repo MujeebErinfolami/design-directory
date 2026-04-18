@@ -126,5 +126,16 @@
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+    /* Prevent layout shift from scrollbar appearing */
+    scrollbar-gutter: stable;
+  }
+  /* Consistent focus ring for interactive elements */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  /* Text selection */
+  ::selection {
+    @apply bg-foreground/10;
   }
 }

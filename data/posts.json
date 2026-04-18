@@ -1,0 +1,114 @@
+[
+  {
+    "slug": "rise-of-editorial-branding",
+    "title": "The Rise of Editorial Branding in 2026",
+    "excerpt": "Brand identities are borrowing the visual language of print journalism — tight typography, rigorous grids, and editorial restraint. Here's why it works.",
+    "category": "Branding",
+    "author": {
+      "name": "Mara Lindt",
+      "title": "Brand Strategist"
+    },
+    "date": "2026-01-14",
+    "readTime": "6 min read",
+    "featured": true,
+    "body": "There's a quiet revolution happening in brand identity. The most talked-about rebrands of the past two years have had one thing in common: they look less like traditional brand books and more like the front page of a well-funded magazine.\n\nEditorial branding is the practice of bringing journalistic visual principles into commercial identity work. That means disciplined typographic hierarchies, a preference for ink-on-paper contrast ratios, and layouts that feel composed rather than templated.\n\nThe shift has practical roots. As every brand competes for attention in a single, scroll-driven feed, the visual vocabulary of social media has become noise. The brands cutting through are the ones that feel categorically different — and nothing signals considered craft like a layout that could have been typeset by hand.\n\nNot all of this is nostalgia. The best editorial branding systems are highly functional: they scale from a business card to a billboard, they age well because they're not tied to any single digital trend, and they give art directors room to work rather than locking everything into a rigid component library.\n\nThe challenge is restraint. Most brand teams aren't trained as editors. The instinct is always to add — another color, another weight, another layer of hierarchy. Editorial branding requires the opposite: committing to a system and trusting it to carry the full range of communication.\n\nFor designers exploring this direction, the homework is obvious: study Massimo Vignelli, spend time with the Neue Zürcher Zeitung layout, and read Robin Kinross on modernist typography. The references are old. The applications are very new."
+  },
+  {
+    "slug": "ux-case-study-wins-clients",
+    "title": "How to Structure a Case Study That Wins Clients",
+    "excerpt": "Most UX case studies bury the most important parts. A clear narrative arc — problem, decision, outcome — does more than any polished mockup.",
+    "category": "UX",
+    "author": {
+      "name": "Sam Okafor",
+      "title": "Senior Product Designer"
+    },
+    "date": "2026-02-03",
+    "readTime": "8 min read",
+    "featured": true,
+    "body": "The average UX portfolio case study follows a predictable structure: a bit of context, a lot of process photos, some wireframes, and a final mockup. It's a format that communicates effort but rarely communicates thinking.\n\nClients and hiring managers aren't evaluating effort. They're asking a simpler question: can this person solve my problem? A case study that answers that question wins work. One that doesn't, regardless of how polished the deliverables look, ends up in the archive.\n\nThe structure that works is borrowed from journalism, not academia. Start with the ending. Lead with the outcome — the metric that moved, the decision that changed, the problem that was actually solved. Then work backwards to explain how you got there.\n\nThe middle section is where most case studies fail. Designers show every artifact from the process — affinity maps, journey maps, multiple rounds of wireframes — as proof that they were thorough. But thoroughness isn't the story. The story is: what was the hardest decision you made, and why did you make it that way?\n\nOne useful exercise is to cut your case study down to three paragraphs: the problem as the client experienced it, the key insight that changed how you thought about the problem, and the decision you made as a result. If you can't write those three paragraphs, the case study isn't ready yet.\n\nVisuals should illustrate decisions, not fill space. A single annotated wireframe explaining a navigation tradeoff is worth more than twelve screens of a polished final design. Show the version you didn't ship and explain why.\n\nThe closing matters too. End with what you'd do differently, not what you'd do the same. Intellectual honesty is rarer than technical skill, and it signals exactly the kind of designer that good clients want to work with."
+  },
+  {
+    "slug": "motion-design-tools-2026",
+    "title": "Motion Design Tools Worth Learning This Year",
+    "excerpt": "From real-time 3D in the browser to AI-assisted keyframing, the motion design toolkit expanded significantly. We break down what actually matters.",
+    "category": "Motion",
+    "author": {
+      "name": "Yuki Tanaka",
+      "title": "Motion Designer"
+    },
+    "date": "2026-03-21",
+    "readTime": "5 min read",
+    "featured": false,
+    "body": "Every year the motion design tool landscape shifts just enough to require a reassessment. Some tools that dominated two years ago are now legacy choices. Some that looked experimental have matured into production-ready workflows.\n\nThe most significant development of the past year is the maturation of real-time 3D in the browser. Tools that previously required a dedicated GPU and a render farm can now produce shippable output directly in a web environment. For product designers who've been keeping motion work at arm's length because of production complexity, that barrier is now much lower.\n\nAI-assisted keyframing has moved from novelty to utility. The current generation of tools can infer timing and easing from rough gesture input, which dramatically compresses the iteration cycle. The output still requires human judgment to feel considered rather than generated, but the tedious middle work — setting interpolation curves across dozens of properties — is largely automated.\n\nFor those focused on interface animation specifically, the integration between design tools and code has finally reached a point where handoff doesn't require a complete rebuild. Prototype-to-production workflows now exist that preserve timing, easing, and state logic without requiring a developer to reconstruct the animation from scratch.\n\nWhat hasn't changed: the fundamentals of timing, weight, and anticipation are still what separate professional motion work from amateur output. Tools can handle the technical execution. The principles are still yours to learn.\n\nThe practical recommendation: invest time in understanding the principle of staging and the 12 principles of animation if you haven't already. Then pick the tool that fits your workflow. The tool is the easy part."
+  },
+  {
+    "slug": "typography-systems-product-design",
+    "title": "Building Typography Systems That Actually Scale",
+    "excerpt": "A type scale that works in Figma often breaks in production. Here's how to design typographic systems that survive the handoff and hold up at every breakpoint.",
+    "category": "Typography",
+    "author": {
+      "name": "Petra Vogel",
+      "title": "Design Systems Lead"
+    },
+    "date": "2026-03-05",
+    "readTime": "7 min read",
+    "featured": false,
+    "body": "There's a common failure mode in design systems work: the type scale looks perfect in the Figma component library and falls apart the moment it hits a real browser on a real device.\n\nThe reasons are predictable. Figma uses fixed pixel values. Browsers use relative units and have their own text rendering stack. The font on your MacBook looks different from the font on a Windows laptop, which looks different again on an Android phone. A type system that isn't built with this in mind will require constant patching.\n\nThe foundational decision is choosing your unit. Rem-based type scales have won in practice because they respect user preferences — someone who's set their system font size to 20px will get proportionally larger type across the interface. Pixel-based scales override that preference. For most products, that's a choice against accessibility.\n\nModular scales — sequences generated by a consistent ratio like 1.25 or 1.333 — sound appealing in theory but create problems in practice. The values are irrational numbers that don't map cleanly to any layout grid, and you end up with a scale that has too many stops nobody uses. A hand-chosen scale of six to eight sizes, rationalized to a 4px baseline grid, almost always serves better.\n\nThe bigger investment is defining not just size but behavior. How does a display heading respond at mobile breakpoints? Does body copy change size, or does it stay fixed and let the layout reflow? These decisions compound across every screen in the product, so making them explicitly — and documenting them — is worth far more time than refining the visual style of any individual text element.\n\nFinally: the system needs a human owner. Type systems decay without maintenance. Tokens get added without removing old ones. Breakpoint behavior diverges from the spec. Assigning clear ownership is as important as the design decisions themselves."
+  },
+  {
+    "slug": "client-feedback-design-process",
+    "title": "Getting Useful Feedback from Clients Who Don't Know Design",
+    "excerpt": "\"Make the logo bigger\" is a symptom, not a brief. How to run feedback sessions that surface real concerns and protect your design decisions.",
+    "category": "Process",
+    "author": {
+      "name": "Mara Lindt",
+      "title": "Brand Strategist"
+    },
+    "date": "2026-02-18",
+    "readTime": "6 min read",
+    "featured": false,
+    "body": "The most frustrating feedback a designer can receive isn't \"I don't like it.\" It's a specific instruction delivered with confidence that is actually masking an unspecified feeling: \"Can you make it feel more premium?\" or \"The logo should be bigger.\" These aren't briefs. They're symptoms.\n\nThe job of a feedback session isn't to receive instructions. It's to surface the underlying concern so you can address it with design judgment rather than literal execution.\n\nThe technique that works: before presenting any work, restate the brief in one sentence and ask the client to confirm or correct it. This resets the conversation away from \"evaluate what you see\" and toward \"does this answer the question we agreed to?\" Most feedback problems start because the client and designer are implicitly answering different questions.\n\nWhen feedback arrives as a direction — \"make it bolder,\" \"more approachable,\" \"less corporate\" — respond by asking what prompted that reaction. Usually the answer is specific: a competitor they saw, a piece of reference they haven't shared, a stakeholder comment from a meeting you weren't in. The direction is an approximation of the real concern. Get to the real concern.\n\nAnchor your decisions out loud. When presenting work, don't just show screens — narrate the choices. \"We went with this hierarchy because the research showed users scan this section before they read it.\" When your reasoning is explicit, feedback has to engage with the reasoning rather than just react to the output. This doesn't prevent revision requests, but it shifts the frame.\n\nFinally: distinguish between feedback that represents a genuine misalignment between the design and the brief, and feedback that represents a preference. The first kind requires a design response. The second kind requires a conversation about process and trust."
+  },
+  {
+    "slug": "color-systems-dark-mode",
+    "title": "Designing Color Systems That Work in Dark Mode",
+    "excerpt": "Dark mode isn't just an inversion. A color system that hasn't been designed for both surfaces will show the seams. Here's how to do it properly.",
+    "category": "Color",
+    "author": {
+      "name": "Sam Okafor",
+      "title": "Senior Product Designer"
+    },
+    "date": "2026-01-28",
+    "readTime": "9 min read",
+    "featured": true,
+    "body": "Dark mode is now a baseline expectation, not a feature. Users switch between light and dark depending on context, time of day, and preference. A product that handles this transition gracefully signals craft. One that handles it poorly signals that dark mode was an afterthought — which it usually was.\n\nThe most common mistake is treating dark mode as an inversion. True inversion produces ugly results: warm colors become cold, saturated colors become overwhelming, and shadows (which rely on the convention of light coming from above) stop working entirely. The correct approach is to design two color systems that share a semantic token layer.\n\nThe token layer is the key concept. Rather than specifying colors directly — \"this text is #1a1a1a\" — you specify semantic roles: \"this text is [color.text.primary].\" The token resolves to a light value in light mode and a dark value in dark mode. The design tool and the implementation stay in sync because they're both referencing the same semantic contract.\n\nFor backgrounds, avoid pure black. Surfaces in dark mode should have slight warmth or color cast — typically a very dark blue-gray or warm gray — because pure black creates contrast so high it causes halation around text. Most mature design systems use a background value around hsl(220, 13%, 9%) rather than #000000.\n\nSaturation behaves differently in dark mode. Colors that work at 70% saturation in light mode often need to be reduced to 40–50% in dark to avoid looking electric or garish. This is especially true for semantic colors: a success green that's vibrant on white will be eye-watering on a dark surface.\n\nElevation and shadow need a complete rethink. In light mode, elevation is conveyed through shadows. In dark mode, shadows don't read because the background is already close to black. The solution is to use lighter fills for elevated surfaces — each level of elevation gets a slightly lighter background, with no shadow at all.\n\nTest in context. The only reliable way to validate a dark mode color system is to view it on an actual dark display, not in a design tool with a dark artboard."
+  },
+  {
+    "slug": "portfolio-site-mistakes",
+    "title": "Seven Portfolio Site Mistakes That Are Costing You Work",
+    "excerpt": "Your portfolio is doing more work than you think — and probably making avoidable errors that send qualified clients elsewhere.",
+    "category": "Career",
+    "author": {
+      "name": "Petra Vogel",
+      "title": "Design Systems Lead"
+    },
+    "date": "2026-04-02",
+    "readTime": "5 min read",
+    "featured": false,
+    "body": "Portfolio reviews happen fast. Eye-tracking research consistently shows that initial decisions about a portfolio are made in under ten seconds. What you put in those ten seconds — and what's broken or missing — determines whether someone reads further or clicks away.\n\nThe first and most common mistake is leading with your process rather than your outcomes. Process documentation is essential inside case studies, but it shouldn't be the first thing a visitor sees. Lead with the result. Let them see what you've made before explaining how you made it.\n\nThe second mistake is including too many projects. A portfolio with twelve case studies signals that you can't edit your own work. Six strong projects, with clear outcomes, beats twelve adequate ones every time. Cut the work you're not proud of, even if it's recent.\n\nThird: password-protecting work without an obvious way to request access. If you're hiding NDA work behind a password, include a visible contact prompt on the same page. \"Request access\" reduces the friction by orders of magnitude compared to making a visitor guess how to get in touch.\n\nFourth: slow load times. A portfolio that takes four seconds to load on a mobile connection is gone before it's seen. Unoptimized video headers are the most common culprit. Replace them with compressed images or static visuals.\n\nFifth: no contact information in the navigation. Don't make someone scroll to the footer to find how to reach you. An email address or contact page in the top navigation removes a step at exactly the moment someone has decided they want to get in touch.\n\nSixth: case studies that describe what you did without explaining the decision behind it. \"I designed three variations and tested them with users\" is less compelling than \"I designed three variations, testing revealed that users ignored option A entirely, and that finding changed the direction of the whole project.\"\n\nSeventh: not updating it. An active portfolio signals an active designer. Even minor additions or edits to case studies, a new case study once or twice a year, keeps the signal fresh."
+  },
+  {
+    "slug": "grid-systems-web",
+    "title": "Grids Are Not Optional: A Case for Rigorous Layout Systems",
+    "excerpt": "Designers who skip the grid spend more time in review, ship more inconsistencies, and hand developers unmaintainable specs. Here's the argument for doing it properly.",
+    "category": "Layout",
+    "author": {
+      "name": "Yuki Tanaka",
+      "title": "Motion Designer"
+    },
+    "date": "2026-03-12",
+    "readTime": "6 min read",
+    "featured": false,
+    "body": "There's a persistent myth in digital design that grids are for print — that the fluid, responsive nature of the web makes fixed layout systems unnecessary or even counterproductive. This is wrong, and the products that act on it look like it.\n\nA grid doesn't restrict creativity. It creates a shared coordinate system between design and development, which is the precondition for consistent implementation. Without it, you're not designing a layout — you're designing a suggestion.\n\nThe most useful grid for web products isn't a 12-column print-inherited system. It's a combination of: a max-width container that defines the readable area, a column structure for the primary layout breakpoints, and a baseline grid based on 4px or 8px that governs vertical spacing. These three layers together are enough to constrain almost any UI problem without feeling restrictive.\n\nFluid grids — grids that respond continuously rather than snapping at breakpoints — are more correct but more complex. For most product work, two or three defined breakpoints (mobile, tablet, desktop) are sufficient, and the complexity of fully fluid behavior isn't worth the implementation overhead unless your design team is unusually mature.\n\nThe baseline grid is the most underused of the three. Vertical rhythm is what makes a design feel considered rather than assembled. When all vertical spacing is a multiple of 4px and type is set to line heights that sit on the grid, the layout has a coherence that's hard to articulate but immediately felt.\n\nFor teams starting from scratch, the investment is documentation. A grid system that lives only in Figma is only as good as the last person who opened the file. Export it to a shared token layer, write it into the CSS, and make sure developers and designers are referencing the same values. A shared system that everyone uses is worth a hundred perfect mockups no one implements correctly."
+  }
+]
