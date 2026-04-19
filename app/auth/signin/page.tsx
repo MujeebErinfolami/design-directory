@@ -1,16 +1,12 @@
-import { signIn } from "@/auth";
-import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+"use client";
 
-interface PageProps {
-  searchParams: Promise<{ callbackUrl?: string }>;
-}
+import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default async function SignInPage({ searchParams }: PageProps) {
-  const session = await auth();
-  if (session) redirect("/dashboard");
-
-  const { callbackUrl } = await searchParams;
+function SignInContent() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const safe = callbackUrl?.startsWith("/") ? callbackUrl : "/dashboard";
 
   return (
@@ -23,26 +19,27 @@ export default async function SignInPage({ searchParams }: PageProps) {
           </p>
         </div>
 
-        <form
-          action={async () => {
-            "use server";
-            await signIn("google", { redirectTo: safe });
-          }}
+        <button
+          onClick={() => signIn("google", { callbackUrl: safe })}
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-semibold shadow-sm transition-colors hover:bg-muted"
         >
-          <button
-            type="submit"
-            className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-semibold shadow-sm transition-colors hover:bg-muted"
-          >
-            <GoogleIcon />
-            Continue with Google
-          </button>
-        </form>
+          <GoogleIcon />
+          Continue with Google
+        </button>
 
         <p className="text-center text-xs text-muted-foreground">
           By signing in you agree to our terms of service and privacy policy.
         </p>
       </div>
     </main>
+  );
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense>
+      <SignInContent />
+    </Suspense>
   );
 }
 
