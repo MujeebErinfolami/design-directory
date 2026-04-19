@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { MapPin, Briefcase, ArrowLeft } from "lucide-react";
+import { MapPin, Briefcase } from "lucide-react";
+import { BackButton } from "@/components/layout/BackButton";
 import { PageWrapper } from "@/components/layout/PageWrapper";
 import { SkillTags } from "@/components/designers/SkillTags";
 import { ContactBlock } from "@/components/designers/ContactBlock";
@@ -50,13 +51,9 @@ export default async function DesignerProfilePage({ params }: PageProps) {
       <div className="border-b border-border bg-muted/20">
         <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
           {/* Back link */}
-          <Link
-            href="/designers"
-            className="group mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-          >
-            <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-            All designers
-          </Link>
+          <div className="mb-8">
+            <BackButton href="/designers" label="All designers" />
+          </div>
 
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
             {/* Avatar */}

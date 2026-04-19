@@ -1,6 +1,7 @@
 import { requireOnboarded } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PageWrapper } from "@/components/layout/PageWrapper";
+import { BackButton } from "@/components/layout/BackButton";
 import { DesignerProfileForm, AgencyProfileForm } from "./ProfileForm";
 
 export const metadata = { title: "Edit Profile" };
@@ -32,6 +33,9 @@ export default async function ProfilePage() {
     return (
       <PageWrapper>
         <div className="py-12">
+          <div className="mb-6">
+            <BackButton href="/dashboard" label="Dashboard" />
+          </div>
           <div className="mb-8">
             <h1 className="text-3xl font-bold tracking-tight">Edit Profile</h1>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -69,6 +73,9 @@ export default async function ProfilePage() {
   return (
     <PageWrapper>
       <div className="py-12">
+        <div className="mb-6">
+          <BackButton href="/dashboard" label="Dashboard" />
+        </div>
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">Edit Agency Profile</h1>
           <p className="mt-1 text-sm text-muted-foreground">Your public agency profile.</p>

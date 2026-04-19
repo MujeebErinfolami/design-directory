@@ -1,6 +1,7 @@
 import { requireOnboarded } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { PageWrapper } from "@/components/layout/PageWrapper";
+import { BackButton } from "@/components/layout/BackButton";
 import Link from "next/link";
 
 export const metadata = { title: "My Submissions" };
@@ -39,6 +40,9 @@ export default async function SubmissionsPage() {
   return (
     <PageWrapper>
       <div className="py-12">
+        <div className="mb-6">
+          <BackButton href="/dashboard" label="Dashboard" />
+        </div>
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">My Submissions</h1>

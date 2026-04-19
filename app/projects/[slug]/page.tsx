@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
+import { BackButton } from "@/components/layout/BackButton";
 import { ProjectHero } from "@/components/projects/ProjectHero";
 import { CreditsBlock } from "@/components/projects/CreditsBlock";
 import { RelatedProjects } from "@/components/projects/RelatedProjects";
@@ -49,13 +49,9 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       <PageWrapper>
         {/* Back link */}
-        <Link
-          href="/projects"
-          className="group mb-10 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-        >
-          <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-          All projects
-        </Link>
+        <div className="mb-10">
+          <BackButton href="/projects" label="All projects" />
+        </div>
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_300px]">

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/layout/BackButton";
 import { ReviewActions } from "./ReviewActions";
 
 export const metadata = { title: "Admin — Submissions" };
@@ -32,6 +33,9 @@ export default async function AdminSubmissionsPage({ searchParams }: PageProps) 
 
   return (
     <div>
+      <div className="mb-4">
+        <BackButton href="/admin" label="Admin overview" />
+      </div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-bold tracking-tight">Submissions</h1>
         <FilterTabs active={filter} />

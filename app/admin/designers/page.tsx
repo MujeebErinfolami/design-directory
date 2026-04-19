@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/layout/BackButton";
 import { VerifyToggle } from "./VerifyToggle";
 
 export const metadata = { title: "Admin — Designers" };
@@ -26,6 +27,9 @@ export default async function AdminDesignersPage() {
 
   return (
     <div>
+      <div className="mb-4">
+        <BackButton href="/admin" label="Admin overview" />
+      </div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Designers</h1>
         <p className="text-sm text-muted-foreground">{designers.length} profiles</p>

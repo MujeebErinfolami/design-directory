@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { PageWrapper } from "@/components/layout/PageWrapper";
+import { BackButton } from "@/components/layout/BackButton";
 import { AuthorByline } from "@/components/blog/AuthorByline";
 import { BlogCard } from "@/components/blog/BlogCard";
 import {
@@ -48,13 +48,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <PageWrapper>
       {/* Back link */}
-      <Link
-        href="/blog"
-        className="group mb-10 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
-      >
-        <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
-        All articles
-      </Link>
+      <div className="mb-10">
+        <BackButton href="/blog" label="All articles" />
+      </div>
 
       {/* Article */}
       <article className="mx-auto max-w-2xl">

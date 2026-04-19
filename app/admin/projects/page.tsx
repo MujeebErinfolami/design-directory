@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { BackButton } from "@/components/layout/BackButton";
 import { BadgePanel } from "./BadgePanel";
 
 export const metadata = { title: "Admin — Projects" };
@@ -24,6 +25,9 @@ export default async function AdminProjectsPage() {
 
   return (
     <div>
+      <div className="mb-4">
+        <BackButton href="/admin" label="Admin overview" />
+      </div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Approved Projects</h1>
         <p className="text-sm text-muted-foreground">{projects.length} projects</p>
