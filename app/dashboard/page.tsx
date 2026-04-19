@@ -31,8 +31,8 @@ export default async function DashboardPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DashCard title="Submit a Project" href="/submit" description="Share your work with the community." cta="Get started →" />
-          <DashCard title="Edit Profile" href="/settings/profile" description="Update your bio, skills, and contact info." cta="Open settings →" />
-          <DashCard title="My Submissions" href="/dashboard/submissions" description="Track the status of your submitted projects." cta="View all →" />
+          <DashCard title="Edit Profile" href="/profile" description="Update your bio, skills, and contact info." cta="Open settings →" />
+          <DashCard title="My Submissions" href="/submissions" description="Track the status of your submitted projects." cta="View all →" />
         </div>
       </div>
     </PageWrapper>

@@ -6,11 +6,11 @@ import type { NextRequest } from "next/server";
 const { auth } = NextAuth(authConfig);
 
 // Routes that require a signed-in session
-const PROTECTED = ["/dashboard", "/onboarding", "/api/submit"];
+const PROTECTED = ["/dashboard", "/onboarding", "/profile", "/submit", "/submissions", "/api/submit", "/api/profile", "/api/projects"];
 const ADMIN_ONLY = ["/admin"];
 
 // Subset of PROTECTED that also require a completed profile (accountType set)
-const REQUIRES_ONBOARDING = ["/dashboard", "/api/submit"];
+const REQUIRES_ONBOARDING = ["/dashboard", "/profile", "/submit", "/submissions", "/api/submit", "/api/profile", "/api/projects"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
