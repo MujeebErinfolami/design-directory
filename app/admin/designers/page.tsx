@@ -31,7 +31,7 @@ export default async function AdminDesignersPage() {
         <BackButton href="/admin" label="Admin overview" />
       </div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">Designers</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Creatives</h1>
         <p className="text-sm text-muted-foreground">{designers.length} profiles</p>
       </div>
 

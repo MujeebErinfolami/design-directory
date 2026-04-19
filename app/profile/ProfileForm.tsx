@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const ALL_SPECIALTIES = [
-  "Branding", "UX/UI", "Typography", "Motion", "Print", "Web Design",
-  "Illustration", "Packaging", "Environmental", "Art Direction",
-];
+import { PRIMARY_ROLES } from "@/lib/data/designers";
 
 const ALL_TOOLS = [
   "Figma", "Sketch", "Adobe XD", "Photoshop", "Illustrator", "InDesign",
@@ -20,6 +16,7 @@ type DesignerProfile = {
   locationCity: string;
   locationCountry: string;
   locationCountryCode: string;
+  primaryRoles: string[];
   specialties: string[];
   tools: string[];
   availability: string;
@@ -60,7 +57,7 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function toggleArray(field: "specialties" | "tools", val: string) {
+  function toggleArray(field: "primaryRoles" | "specialties" | "tools", val: string) {
     setForm((prev) => {
       const arr = prev[field] as string[];
       return {
@@ -103,12 +100,12 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
             required
           />
         </Field>
-        <Field label="Job Title">
+        <Field label="Title / Tagline">
           <input
             className={inputClass}
             value={form.title}
             onChange={(e) => set("title", e.target.value)}
-            placeholder="e.g. Brand & Type Designer"
+            placeholder="e.g. Brand Director building identities that last"
           />
         </Field>
         <Field label="Bio">
@@ -134,16 +131,16 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
         </div>
       </Section>
 
-      <Section title="Specialties">
+      <Section title="Primary Roles">
         <div className="flex flex-wrap gap-2">
-          {ALL_SPECIALTIES.map((s) => (
+          {PRIMARY_ROLES.map((r) => (
             <button
-              key={s}
+              key={r}
               type="button"
-              onClick={() => toggleArray("specialties", s)}
-              className={tagButton(form.specialties.includes(s))}
+              onClick={() => toggleArray("primaryRoles", r)}
+              className={tagButton(form.primaryRoles.includes(r))}
             >
-              {s}
+              {r}
             </button>
           ))}
         </div>
@@ -296,7 +293,7 @@ export function AgencyProfileForm({ initial }: { initial: AgencyProfile }) {
 
       <Section title="Specialties">
         <div className="flex flex-wrap gap-2">
-          {ALL_SPECIALTIES.map((s) => (
+          {PRIMARY_ROLES.map((s) => (
             <button key={s} type="button" onClick={() => toggleSpecialty(s)} className={tagButton(form.specialties.includes(s))}>
               {s}
             </button>

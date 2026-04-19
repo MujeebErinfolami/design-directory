@@ -3,14 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { PRIMARY_ROLES } from "@/lib/data/designers";
 
 type AccountType = "designer" | "agency";
 type Step = "choose" | "profile";
-
-const SPECIALTIES = [
-  "Branding", "Typography", "UI/UX", "Motion", "Illustration",
-  "Web Design", "Print", "Packaging", "Product", "3D",
-];
 
 export function OnboardingForm({ userName }: { userName: string }) {
   const router = useRouter();
@@ -27,15 +23,15 @@ export function OnboardingForm({ userName }: { userName: string }) {
     locationCity: "",
     locationCountry: "",
     teamSize: "",
-    specialties: [] as string[],
+    primaryRoles: [] as string[],
   });
 
-  function toggleSpecialty(s: string) {
+  function toggleRole(r: string) {
     setForm((f) => ({
       ...f,
-      specialties: f.specialties.includes(s)
-        ? f.specialties.filter((x) => x !== s)
-        : [...f.specialties, s],
+      primaryRoles: f.primaryRoles.includes(r)
+        ? f.primaryRoles.filter((x) => x !== r)
+        : [...f.primaryRoles, r],
     }));
   }
 
@@ -45,14 +41,18 @@ export function OnboardingForm({ userName }: { userName: string }) {
     setError("");
 
     try {
+      const payload =
+        accountType === "designer"
+          ? { accountType, ...form, specialties: form.primaryRoles }
+          : { accountType, displayName: form.displayName, bio: form.bio, locationCity: form.locationCity, locationCountry: form.locationCountry, teamSize: form.teamSize };
+
       const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ accountType, ...form }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Something went wrong");
-      // Refresh the JWT so accountType is set before /dashboard checks requireOnboarded()
       await update();
       router.push("/dashboard");
     } catch (err: any) {
@@ -79,7 +79,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
           >
             <span className="text-3xl">🎨</span>
             <div>
-              <p className="font-semibold">Designer</p>
+              <p className="font-semibold">Creative</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Share your portfolio and get discovered
               </p>
@@ -113,7 +113,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
           ← Back
         </button>
         <h1 className="text-2xl font-bold tracking-tight">
-          Set up your {accountType === "designer" ? "designer" : "agency"} profile
+          Set up your {accountType === "designer" ? "creative" : "agency"} profile
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           You can edit these details later.
@@ -121,10 +121,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Field
-          label={accountType === "designer" ? "Full name" : "Studio name"}
-          required
-        >
+        <Field label={accountType === "designer" ? "Full name" : "Studio name"} required>
           <input
             value={form.displayName}
             onChange={(e) => setForm((f) => ({ ...f, displayName: e.target.value }))}
@@ -134,14 +131,36 @@ export function OnboardingForm({ userName }: { userName: string }) {
         </Field>
 
         {accountType === "designer" && (
-          <Field label="Title / Role">
-            <input
-              placeholder="e.g. Brand & Type Designer"
-              value={form.title}
-              onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-              className={inputCls}
-            />
-          </Field>
+          <>
+            <Field label="Title / Tagline">
+              <input
+                placeholder="e.g. Brand Director building identities that last"
+                value={form.title}
+                onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+                className={inputCls}
+              />
+            </Field>
+
+            <div>
+              <label className="mb-2 block text-sm font-medium">Primary Roles</label>
+              <div className="flex flex-wrap gap-2">
+                {PRIMARY_ROLES.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => toggleRole(r)}
+                    className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+                      form.primaryRoles.includes(r)
+                        ? "border-foreground bg-foreground text-background"
+                        : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </>
         )}
 
         {accountType === "agency" && (
@@ -184,26 +203,6 @@ export function OnboardingForm({ userName }: { userName: string }) {
               className={inputCls}
             />
           </Field>
-        </div>
-
-        <div>
-          <label className="mb-2 block text-sm font-medium">Specialties</label>
-          <div className="flex flex-wrap gap-2">
-            {SPECIALTIES.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => toggleSpecialty(s)}
-                className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
-                  form.specialties.includes(s)
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
         </div>
 
         {error && (

@@ -150,6 +150,7 @@ export default async function DesignerProfilePage({ params }: PageProps) {
               </h2>
               <SkillTags
                 specialties={designer.specialties}
+                primaryRoles={designer.primaryRoles}
                 tools={designer.tools}
               />
             </section>

@@ -70,17 +70,22 @@ export function DesignerCard({ designer }: DesignerCardProps) {
           </div>
         </div>
 
-        {/* Specialties */}
-        {designer.specialties.length > 0 && (
+        {/* Primary roles */}
+        {designer.primaryRoles.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-1.5">
-            {designer.specialties.map((s) => (
+            {designer.primaryRoles.slice(0, 3).map((r) => (
               <span
-                key={s}
+                key={r}
                 className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-foreground"
               >
-                {s}
+                {r}
               </span>
             ))}
+            {designer.primaryRoles.length > 3 && (
+              <span className="rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                +{designer.primaryRoles.length - 3}
+              </span>
+            )}
           </div>
         )}
 

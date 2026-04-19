@@ -19,6 +19,7 @@ export default async function ProfilePage() {
       locationCity: profile.locationCity,
       locationCountry: profile.locationCountry,
       locationCountryCode: profile.locationCountryCode,
+      primaryRoles: profile.primaryRoles,
       specialties: profile.specialties,
       tools: profile.tools,
       availability: profile.availability,

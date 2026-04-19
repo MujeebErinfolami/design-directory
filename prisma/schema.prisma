@@ -161,6 +161,7 @@ model DesignerProfile {
   locationCity        String          @default("")
   locationCountry     String          @default("")
   locationCountryCode String          @default("")
+  primaryRoles        String[]
   specialties         String[]
   tools               String[]
   availability        Availability    @default(unavailable)

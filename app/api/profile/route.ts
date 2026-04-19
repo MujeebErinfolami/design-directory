@@ -47,7 +47,7 @@ export async function PATCH(request: Request) {
     if (accountType === "designer") {
       const {
         displayName, title, bio, locationCity, locationCountry, locationCountryCode,
-        specialties, tools, availability, experienceLevel,
+        primaryRoles, specialties, tools, availability, experienceLevel,
         contactEmail, contactWebsite, contactLinkedin, contactInstagram,
         contactBehance, contactDribbble,
       } = body as any;
@@ -61,6 +61,7 @@ export async function PATCH(request: Request) {
           ...(locationCity !== undefined && { locationCity }),
           ...(locationCountry !== undefined && { locationCountry }),
           ...(locationCountryCode !== undefined && { locationCountryCode }),
+          ...(Array.isArray(primaryRoles) && { primaryRoles }),
           ...(Array.isArray(specialties) && { specialties }),
           ...(Array.isArray(tools) && { tools }),
           ...(availability !== undefined && { availability }),

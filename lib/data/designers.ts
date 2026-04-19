@@ -1,20 +1,35 @@
-import designersData from "@/data/designers.json";
+import { prisma } from "@/lib/prisma";
 
-// ── Public types ─────────────────────────────────────────────────────────────
+// ── Role / filter types ───────────────────────────────────────────────────────
 
-export type Specialty =
-  | "Branding"
-  | "UX/UI"
-  | "Motion"
-  | "Web"
-  | "Print"
-  | "Product"
-  | "Illustration"
-  | "Typography";
+export const PRIMARY_ROLES = [
+  "Brand Designer",
+  "UI/UX Designer",
+  "Motion Designer",
+  "Illustrator",
+  "Photographer",
+  "Videographer",
+  "Art Director",
+  "Creative Director",
+  "3D Artist",
+  "Copywriter & Creative",
+  "Content Creator",
+  "Web Designer",
+  "Product Designer",
+  "Creatiologist",
+] as const;
+
+export type PrimaryRole = (typeof PRIMARY_ROLES)[number];
+
+/** Alias kept so FilterPanel / page imports don't break */
+export type Specialty = PrimaryRole;
+export const ALL_SPECIALTIES: readonly PrimaryRole[] = PRIMARY_ROLES;
 
 export type Availability = "available" | "freelance" | "unavailable";
 export type ExperienceLevel = "junior" | "mid" | "senior";
 export type DesignerSort = "az" | "za" | "newest";
+
+// ── Public interfaces ─────────────────────────────────────────────────────────
 
 export interface DesignerContact {
   email: string;
@@ -40,7 +55,9 @@ export interface Designer {
   avatarColor: string;
   initials: string;
   location: DesignerLocation;
-  specialties: Specialty[];
+  primaryRoles: string[];
+  /** @deprecated use primaryRoles — kept for SkillTags / FilterPanel compat */
+  specialties: string[];
   tools: string[];
   availability: Availability;
   experienceLevel: ExperienceLevel;
@@ -48,6 +65,8 @@ export interface Designer {
   agencyAffiliations: string[];
   projectSlugs: string[];
   awards: string[];
+  isVerified: boolean;
+  isFeatured: boolean;
   createdAt: string;
 }
 
@@ -62,17 +81,6 @@ export interface DesignerFilters {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-export const ALL_SPECIALTIES: Specialty[] = [
-  "Branding",
-  "UX/UI",
-  "Motion",
-  "Web",
-  "Print",
-  "Product",
-  "Illustration",
-  "Typography",
-];
-
 export const AVAILABILITY_LABELS: Record<Availability, string> = {
   available: "Available",
   freelance: "Open to freelance",
@@ -85,68 +93,116 @@ export const EXPERIENCE_LABELS: Record<ExperienceLevel, string> = {
   senior: "Senior",
 };
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── Mapper ────────────────────────────────────────────────────────────────────
 
-const designers = designersData as Designer[];
+type ProfileWithAgencies = Awaited<
+  ReturnType<typeof prisma.designerProfile.findFirst>
+> & {
+  agencyMemberships: { agency: { displayName: string } }[];
+};
 
-// ── Query functions (async to match the Prisma interface) ─────────────────────
+function mapProfile(p: ProfileWithAgencies): Designer {
+  return {
+    id: p.id,
+    slug: p.slug,
+    name: p.displayName,
+    title: p.title,
+    bio: p.bio,
+    avatarColor: p.avatarColor,
+    initials: p.initials || p.displayName.slice(0, 2).toUpperCase(),
+    location: {
+      city: p.locationCity,
+      country: p.locationCountry,
+      countryCode: p.locationCountryCode,
+    },
+    primaryRoles: p.primaryRoles,
+    specialties: p.primaryRoles.length > 0 ? p.primaryRoles : p.specialties,
+    tools: p.tools,
+    availability: p.availability as Availability,
+    experienceLevel: p.experienceLevel as ExperienceLevel,
+    contact: {
+      email: p.contactEmail,
+      website: p.contactWebsite,
+      linkedin: p.contactLinkedin,
+      instagram: p.contactInstagram,
+      behance: p.contactBehance,
+      dribbble: p.contactDribbble,
+    },
+    agencyAffiliations: p.agencyMemberships.map((m) => m.agency.displayName),
+    projectSlugs: [],
+    awards: p.awards,
+    isVerified: p.isVerified,
+    isFeatured: p.isFeatured,
+    createdAt: p.createdAt.toISOString().slice(0, 10),
+  };
+}
+
+const include = {
+  agencyMemberships: { include: { agency: { select: { displayName: true } } } },
+} as const;
+
+// ── Query functions ───────────────────────────────────────────────────────────
 
 export async function getAllDesigners(): Promise<Designer[]> {
-  return [...designers].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+  const profiles = await prisma.designerProfile.findMany({
+    orderBy: { createdAt: "desc" },
+    include,
+  });
+  return profiles.map((p) => mapProfile(p as ProfileWithAgencies));
 }
 
 export async function getDesignerBySlug(slug: string): Promise<Designer | undefined> {
-  return designers.find((d) => d.slug === slug);
+  const p = await prisma.designerProfile.findUnique({ where: { slug }, include });
+  return p ? mapProfile(p as ProfileWithAgencies) : undefined;
 }
 
-export async function getFilteredDesigners(
-  filters: DesignerFilters
-): Promise<Designer[]> {
+export async function getFilteredDesigners(filters: DesignerFilters): Promise<Designer[]> {
   const { query, specialty, availability, experience, location, sort = "newest" } = filters;
 
-  let result = [...designers];
+  const q = query?.trim().toLowerCase();
 
-  if (query?.trim()) {
-    const q = query.toLowerCase();
-    result = result.filter(
-      (d) =>
-        d.name.toLowerCase().includes(q) ||
-        d.title.toLowerCase().includes(q) ||
-        d.specialties.some((s) => s.toLowerCase().includes(q)) ||
-        d.location.city.toLowerCase().includes(q) ||
-        d.location.country.toLowerCase().includes(q) ||
-        d.tools.some((t) => t.toLowerCase().includes(q)) ||
-        d.agencyAffiliations.some((a) => a.toLowerCase().includes(q))
-    );
-  }
+  const profiles = await prisma.designerProfile.findMany({
+    where: {
+      ...(specialty ? { primaryRoles: { has: specialty } } : {}),
+      ...(availability ? { availability: availability as any } : {}),
+      ...(experience ? { experienceLevel: experience as any } : {}),
+      ...(location?.trim()
+        ? {
+            OR: [
+              { locationCity: { contains: location, mode: "insensitive" } },
+              { locationCountry: { contains: location, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+      ...(q
+        ? {
+            OR: [
+              { displayName: { contains: q, mode: "insensitive" } },
+              { title: { contains: q, mode: "insensitive" } },
+              { bio: { contains: q, mode: "insensitive" } },
+              { locationCity: { contains: q, mode: "insensitive" } },
+              { locationCountry: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
+    orderBy:
+      sort === "az"
+        ? { displayName: "asc" }
+        : sort === "za"
+        ? { displayName: "desc" }
+        : { createdAt: "desc" },
+    include,
+  });
 
-  if (specialty) result = result.filter((d) => d.specialties.includes(specialty));
-  if (availability) result = result.filter((d) => d.availability === availability);
-  if (experience) result = result.filter((d) => d.experienceLevel === experience);
-  if (location?.trim()) {
-    const loc = location.toLowerCase();
-    result = result.filter(
-      (d) =>
-        d.location.city.toLowerCase().includes(loc) ||
-        d.location.country.toLowerCase().includes(loc)
-    );
-  }
-
-  switch (sort) {
-    case "az": result.sort((a, b) => a.name.localeCompare(b.name)); break;
-    case "za": result.sort((a, b) => b.name.localeCompare(a.name)); break;
-    default:
-      result.sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-  }
-
-  return result;
+  return profiles.map((p) => mapProfile(p as ProfileWithAgencies));
 }
 
 export async function getUniqueLocations(): Promise<string[]> {
-  const cities = designers.map((d) => d.location.city);
+  const profiles = await prisma.designerProfile.findMany({
+    select: { locationCity: true },
+    where: { locationCity: { not: "" } },
+  });
+  const cities = profiles.map((p) => p.locationCity);
   return [...new Set(cities)].sort();
 }

@@ -16,11 +16,11 @@ import {
 } from "@/lib/data/designers";
 
 export const metadata: Metadata = {
-  title: "Designer Search",
-  description: "Search and discover talented designers by specialty, availability, and location.",
+  title: "Creatives",
+  description: "Search and discover talented creatives by role, availability, and location.",
   openGraph: {
-    title: "Designer Search — Design Directory",
-    description: "Search and discover talented designers by specialty, availability, and location.",
+    title: "Creatives — Design Directory",
+    description: "Search and discover talented creatives by role, availability, and location.",
   },
 };
 
@@ -83,10 +83,10 @@ export default async function DesignersPage({ searchParams }: PageProps) {
           Design Directory
         </p>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-          Designers
+          Creatives
         </h1>
         <p className="mt-3 max-w-xl text-base text-muted-foreground">
-          Discover talented designers by specialty, availability, and location.
+          Discover talented creatives by role, availability, and location.
         </p>
       </div>
 

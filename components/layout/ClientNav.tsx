@@ -9,7 +9,7 @@ import { AuthButton } from "./AuthButton";
 
 const navLinks = [
   { href: "/projects", label: "Projects" },
-  { href: "/designers", label: "Designers" },
+  { href: "/designers", label: "Creatives" },
   { href: "/blog", label: "Blog" },
 ];
 

@@ -16,7 +16,7 @@ export default async function AdminPage() {
     { label: "Pending Review",      value: pending,   href: "/admin/submissions", highlight: pending > 0 },
     { label: "Approved Projects",   value: approved,  href: "/admin/projects",    highlight: false },
     { label: "Rejected Projects",   value: rejected,  href: "/admin/submissions", highlight: false },
-    { label: "Designer Profiles",   value: designers, href: "/admin/designers",   highlight: false },
+    { label: "Creative Profiles",   value: designers, href: "/admin/designers",   highlight: false },
     { label: "Agency Profiles",     value: agencies,  href: "/admin/designers",   highlight: false },
   ];
 
@@ -45,7 +45,7 @@ export default async function AdminPage() {
 
       <div className="mt-10 grid gap-4 sm:grid-cols-3">
         <QuickLink href="/admin/submissions" title="Review Queue" description="Approve or reject pending project submissions." />
-        <QuickLink href="/admin/designers"   title="Verify Designers" description="Grant or revoke verification badges for designers." />
+        <QuickLink href="/admin/designers"   title="Verify Creatives" description="Grant or revoke verification badges for creatives." />
         <QuickLink href="/admin/projects"    title="Assign Badges" description="Mark approved projects as Featured, Editor's Pick, or Best of Year." />
       </div>
     </div>

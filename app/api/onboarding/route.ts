@@ -33,10 +33,11 @@ export async function POST(request: Request) {
 
     if (accountType === "designer") {
       const { displayName, title, bio, locationCity, locationCountry, locationCountryCode,
-              specialties, tools, availability, experienceLevel } = fields as any;
+              primaryRoles, specialties, tools, availability, experienceLevel } = fields as any;
       if (!displayName) return NextResponse.json({ error: "displayName required" }, { status: 400 });
       const existing = await prisma.designerProfile.findUnique({ where: { userId } });
       const slug = existing?.slug ?? await uniqueSlug(displayName, "designerProfile");
+      const roles = Array.isArray(primaryRoles) ? primaryRoles : [];
       const profileData = {
         displayName,
         title: title ?? "",
@@ -44,7 +45,8 @@ export async function POST(request: Request) {
         locationCity: locationCity ?? "",
         locationCountry: locationCountry ?? "",
         locationCountryCode: locationCountryCode ?? "",
-        specialties: Array.isArray(specialties) ? specialties : [],
+        primaryRoles: roles,
+        specialties: Array.isArray(specialties) ? specialties : roles,
         tools: Array.isArray(tools) ? tools : [],
         availability: availability ?? "unavailable",
         experienceLevel: experienceLevel ?? "mid",

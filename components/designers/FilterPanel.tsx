@@ -71,9 +71,9 @@ export function FilterPanel({
         )}
       </div>
 
-      {/* Specialty */}
+      {/* Role */}
       <div>
-        <p className="mb-3 text-xs font-semibold text-foreground">Specialty</p>
+        <p className="mb-3 text-xs font-semibold text-foreground">Role</p>
         <div className="flex flex-col gap-1.5">
           {ALL_SPECIALTIES.map((s) => (
             <button

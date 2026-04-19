@@ -1,18 +1,20 @@
 interface SkillTagsProps {
   specialties: string[];
   tools: string[];
+  primaryRoles?: string[];
 }
 
-export function SkillTags({ specialties, tools }: SkillTagsProps) {
+export function SkillTags({ specialties, tools, primaryRoles }: SkillTagsProps) {
+  const roles = primaryRoles && primaryRoles.length > 0 ? primaryRoles : specialties;
   return (
     <div className="space-y-4">
-      {specialties.length > 0 && (
+      {roles.length > 0 && (
         <div>
           <p className="mb-2.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Specialties
+            Roles
           </p>
           <div className="flex flex-wrap gap-2">
-            {specialties.map((s) => (
+            {roles.map((s) => (
               <span
                 key={s}
                 className="rounded-full bg-foreground px-3 py-1 text-xs font-semibold text-background"
