@@ -1,23 +1,22 @@
-import { prisma } from "@/lib/prisma";
-import type { BlogPost as PrismaPost } from "@prisma/client";
+import postsData from "@/data/posts.json";
 
-// ── Public types ──────────────────────────────────────────────────────────────
+// ── Public types ─────────────────────────────────────────────────────────────
 
 export interface PostAuthor {
-  name:  string;
+  name: string;
   title: string;
 }
 
 export interface Post {
-  slug:     string;
-  title:    string;
-  excerpt:  string;
+  slug: string;
+  title: string;
+  excerpt: string;
   category: string;
-  author:   PostAuthor;
-  date:     string; // ISO "YYYY-MM-DD"
+  author: PostAuthor;
+  date: string; // ISO: "2026-01-14"
   readTime: string;
   featured: boolean;
-  body:     string;
+  body: string;
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -33,60 +32,36 @@ export const CATEGORY_STYLES: Record<string, string> = {
   Layout:     "bg-amber-50 text-amber-700",
 };
 
-// ── Mapper ────────────────────────────────────────────────────────────────────
-
-function toPost(p: PrismaPost): Post {
-  return {
-    slug:     p.slug,
-    title:    p.title,
-    excerpt:  p.excerpt,
-    category: p.category,
-    author:   { name: p.authorName, title: p.authorTitle },
-    date:     p.publishedAt.toISOString().slice(0, 10),
-    readTime: p.readTime,
-    featured: p.featured,
-    body:     p.body,
-  };
-}
-
-// ── Utilities ─────────────────────────────────────────────────────────────────
-
 export function formatPostDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
-    year:  "numeric",
+    year: "numeric",
     month: "short",
-    day:   "numeric",
+    day: "numeric",
   });
 }
 
-// ── Query functions ───────────────────────────────────────────────────────────
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const posts = postsData as Post[];
+
+// ── Query functions (async to match the Prisma interface) ─────────────────────
 
 export async function getAllPosts(): Promise<Post[]> {
-  const rows = await prisma.blogPost.findMany({
-    orderBy: { publishedAt: "desc" },
-  });
-  return rows.map(toPost);
+  return [...posts].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | undefined> {
-  const row = await prisma.blogPost.findUnique({ where: { slug } });
-  return row ? toPost(row) : undefined;
+  return posts.find((p) => p.slug === slug);
 }
 
 export async function getFeaturedPosts(limit = 3): Promise<Post[]> {
-  const rows = await prisma.blogPost.findMany({
-    where:   { featured: true },
-    orderBy: { publishedAt: "desc" },
-    take:    limit,
-  });
-  return rows.map(toPost);
+  return posts.filter((p) => p.featured).slice(0, limit);
 }
 
 export async function getRelatedPosts(current: Post, limit = 3): Promise<Post[]> {
-  const rows = await prisma.blogPost.findMany({
-    where:   { category: current.category, NOT: { slug: current.slug } },
-    orderBy: { publishedAt: "desc" },
-    take:    limit,
-  });
-  return rows.map(toPost);
+  return posts
+    .filter((p) => p.slug !== current.slug && p.category === current.category)
+    .slice(0, limit);
 }

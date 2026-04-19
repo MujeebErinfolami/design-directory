@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
+import { authConfig } from "./auth.config";
 import type { AccountType } from "@prisma/client";
 
 declare module "next-auth" {
@@ -24,24 +24,40 @@ declare module "next-auth" {
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
-  providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-  ],
-  session: { strategy: "database" },
+  session: { strategy: "jwt" },
   callbacks: {
-    session({ session, user }) {
-      session.user.id = user.id;
-      session.user.accountType = (user as any).accountType ?? null;
-      session.user.isAdmin = (user as any).isAdmin ?? false;
-      session.user.subscriptionTier = (user as any).subscriptionTier ?? "free";
+    ...authConfig.callbacks,
+    async jwt({ token, user, trigger }) {
+      // On sign-in, load platform fields from DB
+      if (user) {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: { accountType: true, isAdmin: true, subscriptionTier: true },
+        });
+        token.accountType = dbUser?.accountType ?? null;
+        token.isAdmin = dbUser?.isAdmin ?? false;
+        token.subscriptionTier = dbUser?.subscriptionTier ?? "free";
+      }
+      // After onboarding, refresh accountType from DB
+      if (trigger === "update") {
+        const dbUser = await prisma.user.findUnique({
+          where: { id: token.sub },
+          select: { accountType: true, isAdmin: true, subscriptionTier: true },
+        });
+        token.accountType = dbUser?.accountType ?? null;
+        token.isAdmin = dbUser?.isAdmin ?? false;
+        token.subscriptionTier = dbUser?.subscriptionTier ?? "free";
+      }
+      return token;
+    },
+    session({ session, token }) {
+      session.user.id = token.sub as string;
+      session.user.accountType = (token.accountType as AccountType) ?? null;
+      session.user.isAdmin = (token.isAdmin as boolean) ?? false;
+      session.user.subscriptionTier = (token.subscriptionTier as string) ?? "free";
       return session;
     },
-  },
-  pages: {
-    signIn: "/auth/signin",
   },
 });

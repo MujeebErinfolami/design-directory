@@ -1,43 +1,54 @@
-import { auth } from "@/auth";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PROTECTED = ["/dashboard", "/submit", "/settings"];
+const { auth } = NextAuth(authConfig);
+
+// Routes that require a signed-in session
+const PROTECTED = ["/dashboard", "/onboarding", "/api/submit"];
 const ADMIN_ONLY = ["/admin"];
+
+// Subset of PROTECTED that also require a completed profile (accountType set)
+const REQUIRES_ONBOARDING = ["/dashboard", "/api/submit"];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const isProtected = PROTECTED.some((p) => pathname.startsWith(p));
-  const isAdmin = ADMIN_ONLY.some((p) => pathname.startsWith(p));
-  const isOnboarding = pathname.startsWith("/onboarding");
-  const isAuthRoute = pathname.startsWith("/api/auth") || pathname.startsWith("/auth");
+  // NextAuth endpoints and sign-in pages are always public
+  if (pathname.startsWith("/api/auth") || pathname.startsWith("/auth")) {
+    return NextResponse.next();
+  }
 
-  if (!isProtected && !isAdmin && !isOnboarding) {
+  const isProtected = PROTECTED.some((p) => pathname.startsWith(p));
+  const isAdmin     = ADMIN_ONLY.some((p) => pathname.startsWith(p));
+
+  // Public routes — no auth checks at all
+  if (!isProtected && !isAdmin) {
     return NextResponse.next();
   }
 
   const session = await auth();
 
-  // Not signed in — send to sign-in for protected routes
-  if (!session && (isProtected || isAdmin)) {
+  // Not signed in — send to sign-in with a callback
+  if (!session) {
     const url = new URL("/auth/signin", request.url);
     url.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(url);
   }
 
-  // Signed in but no account type — gate everything except onboarding to /onboarding
-  if (session && !session.user.accountType && !isOnboarding && !isAuthRoute) {
+  // Signed in but onboarding not complete — only block routes that need a full profile
+  if (!session.user.accountType && REQUIRES_ONBOARDING.some((p) => pathname.startsWith(p))) {
     return NextResponse.redirect(new URL("/onboarding", request.url));
   }
 
-  // Onboarding page: if already set up, redirect to dashboard
-  if (session && session.user.accountType && isOnboarding) {
+  // Already onboarded — skip the onboarding page
+  if (session.user.accountType && pathname.startsWith("/onboarding")) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   // Admin-only routes
-  if (isAdmin && !session?.user.isAdmin) {
+  if (isAdmin && !session.user.isAdmin) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

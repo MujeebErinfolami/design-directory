@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type AccountType = "designer" | "agency";
 type Step = "choose" | "profile";
@@ -13,6 +14,7 @@ const SPECIALTIES = [
 
 export function OnboardingForm({ userName }: { userName: string }) {
   const router = useRouter();
+  const { update } = useSession();
   const [step, setStep] = useState<Step>("choose");
   const [accountType, setAccountType] = useState<AccountType | null>(null);
   const [loading, setLoading] = useState(false);
@@ -50,9 +52,11 @@ export function OnboardingForm({ userName }: { userName: string }) {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Something went wrong");
+      // Refresh the JWT so accountType is set before /dashboard checks requireOnboarded()
+      await update();
       router.push("/dashboard");
-      router.refresh();
     } catch (err: any) {
+      console.error("[onboarding] submit error:", err);
       setError(err.message);
       setLoading(false);
     }

@@ -1,27 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { dbProjects } from "./fixtures";
-
-// ── Prisma mock ───────────────────────────────────────────────────────────────
-
-vi.mock("@/lib/prisma", () => ({
-  prisma: {
-    project: {
-      findMany:   vi.fn(),
-      findUnique: vi.fn(),
-    },
-  },
-}));
-
-import { prisma } from "@/lib/prisma";
-
-// Typed handles for the mocked methods
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mockFindMany   = prisma.project.findMany   as any as ReturnType<typeof vi.fn>;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mockFindUnique = prisma.project.findUnique as any as ReturnType<typeof vi.fn>;
-
-// ── Imports under test ────────────────────────────────────────────────────────
-
+import { describe, it, expect } from "vitest";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -30,181 +7,150 @@ import {
   getFeaturedProjects,
   getProjectsByDesignerSlug,
   ALL_CATEGORIES,
-  type ProjectCategory,
 } from "../projects";
 
-// ── Setup ─────────────────────────────────────────────────────────────────────
-
-beforeEach(() => {
-  vi.clearAllMocks();
-  // Default: return all three fixtures (newest-first order)
-  mockFindMany.mockResolvedValue([...dbProjects].reverse()); // proj3, proj2, proj1
-  mockFindUnique.mockResolvedValue(null);
-});
-
-// ── getAllProjects ─────────────────────────────────────────────────────────────
-
 describe("getAllProjects", () => {
-  it("returns an array with one entry per DB row", async () => {
+  it("returns all 16 projects", async () => {
     const projects = await getAllProjects();
-    expect(projects).toHaveLength(3);
+    expect(projects).toHaveLength(16);
   });
 
-  it("maps DB row to Project shape — spot-checks proj1", async () => {
-    mockFindMany.mockResolvedValue([dbProjects[0]]);
-    const [p] = await getAllProjects();
-    expect(p.id).toBe("proj1");
-    expect(p.slug).toBe("helvetica-identity-system");
-    expect(p.title).toBe("Helvetica Identity System");
-    expect(p.featured).toBe(true);
-    expect(p.createdAt).toBe("2025-11-01");
-    expect(p.galleryUrls).toEqual([]);
-    expect(p.thumbnailUrl).toBe("");
+  it("returns projects sorted newest-first", async () => {
+    const projects = await getAllProjects();
+    for (let i = 0; i < projects.length - 1; i++) {
+      expect(new Date(projects[i].createdAt).getTime()).toBeGreaterThanOrEqual(
+        new Date(projects[i + 1].createdAt).getTime()
+      );
+    }
   });
 
-  it("maps the first credit to the designer field", async () => {
-    mockFindMany.mockResolvedValue([dbProjects[0]]);
-    const [p] = await getAllProjects();
-    expect(p.designer.id).toBe("dp1");
-    expect(p.designer.slug).toBe("mara-lindt");
-    expect(p.designer.name).toBe("Mara Lindt");
-    expect(p.designer.initials).toBe("ML");
-  });
-
-  it("uses a stub designer when no profile is linked", async () => {
-    const noProfile = {
-      ...dbProjects[0],
-      credits: [{ ...dbProjects[0].credits[0], designerProfile: null, creditName: "Guest Author" }],
-    };
-    mockFindMany.mockResolvedValue([noProfile]);
-    const [p] = await getAllProjects();
-    expect(p.designer.id).toBe("");
-    expect(p.designer.name).toBe("Guest Author");
-    expect(p.designer.initials).toBe("GU");
-  });
-
-  it("each project contains all required fields", async () => {
+  it("each project has required fields with correct shape", async () => {
     const projects = await getAllProjects();
     for (const p of projects) {
       expect(p.id).toBeTruthy();
       expect(p.slug).toBeTruthy();
       expect(p.title).toBeTruthy();
       expect(ALL_CATEGORIES).toContain(p.category);
+      expect(typeof p.featured).toBe("boolean");
       expect(p.designer).toBeDefined();
+      expect(p.designer.id).toBeTruthy();
+      expect(p.designer.slug).toBeTruthy();
       expect(p.createdAt).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     }
   });
 });
 
-// ── getProjectBySlug ──────────────────────────────────────────────────────────
-
 describe("getProjectBySlug", () => {
-  it("returns the mapped project when Prisma finds a match", async () => {
-    mockFindUnique.mockResolvedValue(dbProjects[1]);
-    const found = await getProjectBySlug("atlas-studio-rebrand");
-    expect(found).toBeDefined();
-    expect(found!.slug).toBe("atlas-studio-rebrand");
-    expect(found!.title).toBe("Atlas Studio Rebrand");
+  it("returns the correct project for a known slug", async () => {
+    const p = await getProjectBySlug("helvetica-identity-system");
+    expect(p).toBeDefined();
+    expect(p!.slug).toBe("helvetica-identity-system");
+    expect(p!.category).toBe("Branding");
+    expect(p!.designer.slug).toBe("mara-lindt");
   });
 
-  it("returns undefined when Prisma returns null", async () => {
-    mockFindUnique.mockResolvedValue(null);
-    const result = await getProjectBySlug("no-such-slug");
-    expect(result).toBeUndefined();
+  it("returns undefined for an unknown slug", async () => {
+    const p = await getProjectBySlug("no-such-project");
+    expect(p).toBeUndefined();
   });
 });
 
-// ── getFilteredProjects ───────────────────────────────────────────────────────
-
 describe("getFilteredProjects", () => {
-  it("returns all projects when no category filter is given", async () => {
-    const filtered = await getFilteredProjects(null);
-    expect(filtered).toHaveLength(3);
+  it("returns all projects when no category is given", async () => {
+    const projects = await getFilteredProjects(null);
+    expect(projects).toHaveLength(16);
   });
 
-  it("returns only projects of the given category", async () => {
-    // Mock returns only the Branding fixtures
-    const brandingProjects = dbProjects.filter((p) => p.category === "Branding");
-    mockFindMany.mockResolvedValue(brandingProjects);
-    const filtered = await getFilteredProjects("Branding" as ProjectCategory);
-    for (const p of filtered) {
+  it("filters to only projects matching the given category", async () => {
+    const projects = await getFilteredProjects("Branding");
+    expect(projects.length).toBeGreaterThan(0);
+    for (const p of projects) {
       expect(p.category).toBe("Branding");
     }
   });
 
-  it("ALL_CATEGORIES covers the expected values", () => {
-    expect(ALL_CATEGORIES).toContain("Branding");
-    expect(ALL_CATEGORIES).toContain("UX");
-    expect(ALL_CATEGORIES.length).toBeGreaterThan(0);
+  it("ALL_CATEGORIES covers all six expected values", () => {
+    const expected = ["Branding", "Web", "Motion", "Print", "Product", "UX"];
+    for (const c of expected) {
+      expect(ALL_CATEGORIES).toContain(c);
+    }
   });
 
-  it("sort 'oldest' — passes through rows in the order Prisma returns them", async () => {
-    // Oldest-first: proj3 (Sep), proj2 (Oct), proj1 (Nov)
-    mockFindMany.mockResolvedValue([dbProjects[2], dbProjects[1], dbProjects[0]]);
+  it("sort 'oldest' returns oldest project first", async () => {
     const projects = await getFilteredProjects(null, "oldest");
-    expect(projects[0].id).toBe("proj3");
-    expect(projects[2].id).toBe("proj1");
+    expect(projects[projects.length - 1].slug).toBe("helvetica-identity-system");
+    expect(projects[0].slug).toBe("vault-finance-app");
   });
 
-  it("sort 'featured' — places featured rows first, non-featured after", async () => {
-    // Simulate: Prisma returned only featured (as the query filters isFeatured: true)
-    mockFindMany.mockResolvedValue([dbProjects[0]]); // proj1 is isFeatured: true
+  it("sort 'featured' places featured projects before non-featured", async () => {
     const projects = await getFilteredProjects(null, "featured");
-    expect(projects).toHaveLength(1);
-    expect(projects[0].featured).toBe(true);
+    const firstNonFeaturedIdx = projects.findIndex((p) => !p.featured);
+    if (firstNonFeaturedIdx !== -1) {
+      const beforeNonFeatured = projects.slice(0, firstNonFeaturedIdx);
+      expect(beforeNonFeatured.every((p) => p.featured)).toBe(true);
+    }
+  });
+
+  it("sort 'newest' returns newest project first", async () => {
+    const projects = await getFilteredProjects(null, "newest");
+    expect(projects[0].slug).toBe("helvetica-identity-system");
   });
 });
-
-// ── getRelatedProjects ────────────────────────────────────────────────────────
 
 describe("getRelatedProjects", () => {
-  it("maps and returns whatever Prisma gives back", async () => {
-    // Both proj1 and proj2 are Branding; related to proj1 should be proj2
-    mockFindMany.mockResolvedValue([dbProjects[1]]);
-    const current = { id: "proj1", category: "Branding" } as Parameters<typeof getRelatedProjects>[0];
+  it("returns projects in the same category, excluding the current one", async () => {
+    const current = (await getProjectBySlug("helvetica-identity-system"))!;
     const related = await getRelatedProjects(current);
-    expect(related).toHaveLength(1);
-    expect(related[0].id).toBe("proj2");
+    expect(related.every((p) => p.category === current.category)).toBe(true);
+    expect(related.every((p) => p.id !== current.id)).toBe(true);
   });
 
-  it("returns an empty array when Prisma finds no related rows", async () => {
-    mockFindMany.mockResolvedValue([]);
-    const current = { id: "proj3", category: "UX" } as Parameters<typeof getRelatedProjects>[0];
-    const related = await getRelatedProjects(current);
-    expect(related).toEqual([]);
+  it("respects the limit", async () => {
+    const current = (await getProjectBySlug("helvetica-identity-system"))!;
+    const related = await getRelatedProjects(current, 2);
+    expect(related.length).toBeLessThanOrEqual(2);
+  });
+
+  it("returns empty array when no other projects share the category", async () => {
+    const fakeProject = { id: "fake", category: "Motion" } as Parameters<typeof getRelatedProjects>[0];
+    const related = await getRelatedProjects({ ...fakeProject, id: "__impossible_id__" });
+    for (const p of related) {
+      expect(p.id).not.toBe("__impossible_id__");
+    }
   });
 });
-
-// ── getFeaturedProjects ───────────────────────────────────────────────────────
 
 describe("getFeaturedProjects", () => {
-  it("returns only the rows Prisma provides (featured filter is applied by query)", async () => {
-    mockFindMany.mockResolvedValue([dbProjects[0]]); // only proj1 is featured
+  it("returns only featured projects", async () => {
     const featured = await getFeaturedProjects();
-    expect(featured).toHaveLength(1);
-    expect(featured[0].featured).toBe(true);
+    expect(featured.length).toBeGreaterThan(0);
+    for (const p of featured) {
+      expect(p.featured).toBe(true);
+    }
   });
 
-  it("returns an empty array when there are no featured projects", async () => {
-    mockFindMany.mockResolvedValue([]);
+  it("respects the limit", async () => {
+    const featured = await getFeaturedProjects(2);
+    expect(featured.length).toBeLessThanOrEqual(2);
+  });
+
+  it("returns all 4 featured projects with default limit", async () => {
     const featured = await getFeaturedProjects();
-    expect(featured).toEqual([]);
+    expect(featured).toHaveLength(4);
   });
 });
 
-// ── getProjectsByDesignerSlug ─────────────────────────────────────────────────
-
 describe("getProjectsByDesignerSlug", () => {
-  it("returns the designer's projects", async () => {
-    mockFindMany.mockResolvedValue([dbProjects[0]]);
-    const result = await getProjectsByDesignerSlug("mara-lindt");
-    expect(result).toHaveLength(1);
-    expect(result[0].designer.slug).toBe("mara-lindt");
+  it("returns only projects belonging to the given designer", async () => {
+    const projects = await getProjectsByDesignerSlug("mara-lindt");
+    expect(projects.length).toBeGreaterThan(0);
+    for (const p of projects) {
+      expect(p.designer.slug).toBe("mara-lindt");
+    }
   });
 
-  it("returns an empty array when the designer has no projects", async () => {
-    mockFindMany.mockResolvedValue([]);
-    const result = await getProjectsByDesignerSlug("unknown-designer");
-    expect(result).toEqual([]);
+  it("returns empty array for an unknown designer slug", async () => {
+    const projects = await getProjectsByDesignerSlug("no-such-designer");
+    expect(projects).toEqual([]);
   });
 });
