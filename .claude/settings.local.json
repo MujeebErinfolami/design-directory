@@ -116,7 +116,10 @@
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
       "Bash(npx tsx *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(git commit -m 'Run prisma generate before next build to fix Vercel cache error *)",
+      "Bash(git commit -m 'Fix Google OAuth redirect_uri_mismatch on Vercel: add trustHost to Auth.js v5 config *)",
+      "Bash(git commit -m 'Fix OAuth redirect_uri_mismatch: bootstrap AUTH_URL from VERCEL_PROJECT_PRODUCTION_URL *)"
     ]
   }
 }

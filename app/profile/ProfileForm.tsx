@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
+import { Loader2, Camera } from "lucide-react";
 import { PRIMARY_ROLES } from "@/lib/data/designers";
 
 const ALL_TOOLS = [
@@ -10,6 +12,7 @@ const ALL_TOOLS = [
 ];
 
 type DesignerProfile = {
+  avatarUrl: string;
   displayName: string;
   title: string;
   bio: string;
@@ -30,6 +33,7 @@ type DesignerProfile = {
 };
 
 type AgencyProfile = {
+  logoUrl: string;
   displayName: string;
   bio: string;
   locationCity: string;
@@ -50,11 +54,30 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
   const router = useRouter();
   const [form, setForm] = useState(initial);
   const [saving, setSaving] = useState(false);
+  const [avatarUploading, setAvatarUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   function set(field: keyof DesignerProfile, value: unknown) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleAvatarFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAvatarUploading(true);
+    try {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload",
+      });
+      set("avatarUrl", blob.url);
+    } catch {
+      setError("Avatar upload failed — please try again.");
+    } finally {
+      setAvatarUploading(false);
+    }
   }
 
   function toggleArray(field: "primaryRoles" | "specialties" | "tools", val: string) {
@@ -92,6 +115,41 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <Section title="Basic Info">
+        {/* Avatar upload */}
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => avatarInputRef.current?.click()}
+              className="group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-muted"
+            >
+              {avatarUploading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              ) : form.avatarUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.avatarUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-2xl font-semibold text-muted-foreground">
+                  {form.displayName?.[0]?.toUpperCase() ?? "?"}
+                </span>
+              )}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <Camera className="h-5 w-5 text-white" />
+              </div>
+            </button>
+            <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarFile} />
+          </div>
+          <div>
+            <p className="text-sm font-medium">Profile photo</p>
+            <p className="text-xs text-muted-foreground">JPG, PNG, or GIF · max 50 MB</p>
+            {form.avatarUrl && (
+              <button type="button" onClick={() => set("avatarUrl", "")} className="mt-1 text-xs text-red-500 hover:underline">
+                Remove photo
+              </button>
+            )}
+          </div>
+        </div>
+
         <Field label="Display Name">
           <input
             className={inputClass}
@@ -231,11 +289,30 @@ export function AgencyProfileForm({ initial }: { initial: AgencyProfile }) {
   const router = useRouter();
   const [form, setForm] = useState(initial);
   const [saving, setSaving] = useState(false);
+  const [logoUploading, setLogoUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const logoInputRef = useRef<HTMLInputElement>(null);
 
   function set(field: keyof AgencyProfile, value: unknown) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleLogoFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoUploading(true);
+    try {
+      const blob = await upload(file.name, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload",
+      });
+      set("logoUrl", blob.url);
+    } catch {
+      setError("Logo upload failed — please try again.");
+    } finally {
+      setLogoUploading(false);
+    }
   }
 
   function toggleSpecialty(val: string) {
@@ -272,6 +349,41 @@ export function AgencyProfileForm({ initial }: { initial: AgencyProfile }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <Section title="Basic Info">
+        {/* Logo upload */}
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => logoInputRef.current?.click()}
+              className="group relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-xl bg-muted"
+            >
+              {logoUploading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+              ) : form.logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={form.logoUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="text-2xl font-semibold text-muted-foreground">
+                  {form.displayName?.[0]?.toUpperCase() ?? "A"}
+                </span>
+              )}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <Camera className="h-5 w-5 text-white" />
+              </div>
+            </button>
+            <input ref={logoInputRef} type="file" accept="image/*" className="hidden" onChange={handleLogoFile} />
+          </div>
+          <div>
+            <p className="text-sm font-medium">Agency logo</p>
+            <p className="text-xs text-muted-foreground">JPG, PNG, or GIF · max 50 MB</p>
+            {form.logoUrl && (
+              <button type="button" onClick={() => set("logoUrl", "")} className="mt-1 text-xs text-red-500 hover:underline">
+                Remove logo
+              </button>
+            )}
+          </div>
+        </div>
+
         <Field label="Agency Name">
           <input className={inputClass} value={form.displayName} onChange={(e) => set("displayName", e.target.value)} required />
         </Field>

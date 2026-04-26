@@ -13,6 +13,7 @@ export default async function ProfilePage() {
   if (accountType === "designer") {
     const profile = await prisma.designerProfile.findUniqueOrThrow({ where: { userId } });
     const initial = {
+      avatarUrl: profile.avatarUrl ?? "",
       displayName: profile.displayName,
       title: profile.title,
       bio: profile.bio,
@@ -40,7 +41,7 @@ export default async function ProfilePage() {
           <div className="mb-8">
             <h1 className="text-3xl font-bold tracking-tight">Edit Profile</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Your public designer profile.{" "}
+              Your public creative profile.{" "}
               <a href={`/designers/${profile.slug}`} className="underline hover:no-underline">
                 View public page →
               </a>
@@ -56,6 +57,7 @@ export default async function ProfilePage() {
 
   const profile = await prisma.agencyProfile.findUniqueOrThrow({ where: { userId } });
   const initial = {
+    logoUrl: profile.logoUrl ?? "",
     displayName: profile.displayName,
     bio: profile.bio,
     locationCity: profile.locationCity,

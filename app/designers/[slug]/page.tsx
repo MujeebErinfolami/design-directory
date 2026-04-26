@@ -52,17 +52,26 @@ export default async function DesignerProfilePage({ params }: PageProps) {
         <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
           {/* Back link */}
           <div className="mb-8">
-            <BackButton href="/designers" label="All designers" />
+            <BackButton href="/designers" label="All creatives" />
           </div>
 
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
             {/* Avatar */}
-            <div
-              className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl text-xl font-bold text-white sm:h-24 sm:w-24"
-              style={{ backgroundColor: designer.avatarColor }}
-            >
-              {designer.initials}
-            </div>
+            {designer.avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={designer.avatarUrl}
+                alt={designer.name}
+                className="h-20 w-20 shrink-0 rounded-2xl object-cover sm:h-24 sm:w-24"
+              />
+            ) : (
+              <div
+                className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl text-xl font-bold text-white sm:h-24 sm:w-24"
+                style={{ backgroundColor: designer.avatarColor }}
+              >
+                {designer.initials}
+              </div>
+            )}
 
             {/* Info */}
             <div className="min-w-0 flex-1">

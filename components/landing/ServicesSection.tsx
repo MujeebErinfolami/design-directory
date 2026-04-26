@@ -14,7 +14,7 @@ const services: Service[] = [
     number: "01",
     title: "Submit Your Work",
     description:
-      "Upload a design project and have it listed with full credits — designer name, agency, tools used, and a link back to the source. Your work, properly attributed.",
+      "Upload a design project and have it listed with full credits — creative name, agency, tools used, and a link back to the source. Your work, properly attributed.",
   },
   {
     icon: LayoutGrid,

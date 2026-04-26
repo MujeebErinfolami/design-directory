@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AuthButton } from "./AuthButton";
+import { NotificationBell } from "./NotificationBell";
 
 const navLinks = [
   { href: "/projects", label: "Projects" },
@@ -53,6 +54,7 @@ export function ClientNav({ user }: Props) {
         >
           Submit Project
         </Link>
+        {user && <NotificationBell />}
         <AuthButton user={user} />
       </div>
 

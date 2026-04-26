@@ -37,7 +37,7 @@ export default async function AdminDesignersPage() {
 
       {designers.length === 0 ? (
         <div className="rounded-xl border border-border p-12 text-center text-sm text-muted-foreground">
-          No designer profiles found.
+          No creative profiles found.
         </div>
       ) : (
         <div className="divide-y divide-border rounded-xl border border-border">

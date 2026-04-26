@@ -54,15 +54,26 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.isAdmin = dbUser?.isAdmin ?? false;
         token.subscriptionTier = dbUser?.subscriptionTier ?? "free";
       }
-      // After onboarding, refresh accountType from DB
-      if (trigger === "update") {
+      // After onboarding or profile update, refresh fields from DB
+      if (trigger === "update" || user) {
+        const uid = (user?.id ?? token.sub) as string;
         const dbUser = await prisma.user.findUnique({
-          where: { id: token.sub },
-          select: { accountType: true, isAdmin: true, subscriptionTier: true },
+          where: { id: uid },
+          select: {
+            accountType: true, isAdmin: true, subscriptionTier: true,
+            designerProfile: { select: { avatarUrl: true } },
+            agencyProfile: { select: { logoUrl: true } },
+          },
         });
-        token.accountType = dbUser?.accountType ?? null;
-        token.isAdmin = dbUser?.isAdmin ?? false;
-        token.subscriptionTier = dbUser?.subscriptionTier ?? "free";
+        if (dbUser) {
+          token.accountType = dbUser.accountType ?? null;
+          token.isAdmin = dbUser.isAdmin ?? false;
+          token.subscriptionTier = dbUser.subscriptionTier ?? "free";
+          token.avatarUrl =
+            dbUser.designerProfile?.avatarUrl ??
+            dbUser.agencyProfile?.logoUrl ??
+            null;
+        }
       }
       return token;
     },
@@ -71,6 +82,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       session.user.accountType = (token.accountType as AccountType) ?? null;
       session.user.isAdmin = (token.isAdmin as boolean) ?? false;
       session.user.subscriptionTier = (token.subscriptionTier as string) ?? "free";
+      // Prefer uploaded profile photo over Google OAuth image
+      if (token.avatarUrl) session.user.image = token.avatarUrl as string;
       return session;
     },
   },

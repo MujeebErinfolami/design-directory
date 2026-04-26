@@ -48,13 +48,13 @@ export function AboutSection() {
               </p>
               <p>
                 We created a single, curated place where design projects are
-                properly credited — with designer names, agency affiliations,
+                properly credited — with creative names, agency affiliations,
                 and source links — so the people behind the work get the
                 recognition and reach they deserve.
               </p>
               <p>
                 Whether you&apos;re a creative director scouting talent, a
-                brand looking for a partner, or a designer who wants to be
+                brand looking for a partner, or a creative who wants to be
                 found: this is where it happens.
               </p>
             </div>

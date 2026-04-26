@@ -25,14 +25,16 @@ export default async function DashboardPage() {
           )}
           <div>
             <h1 className="text-2xl font-bold">Welcome back, {name?.split(" ")[0]}</h1>
-            <p className="text-sm text-muted-foreground capitalize">{accountType} account</p>
+            <p className="text-sm text-muted-foreground capitalize">{accountType === "designer" ? "Creative" : "Agency"} account</p>
           </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <DashCard title="Submit a Project" href="/submit" description="Share your work with the community." cta="Get started →" />
-          <DashCard title="Edit Profile" href="/profile" description="Update your bio, skills, and contact info." cta="Open settings →" />
+          <DashCard title="Edit Profile" href="/profile" description="Update your bio, skills, and contact info." cta="Open profile →" />
           <DashCard title="My Submissions" href="/submissions" description="Track the status of your submitted projects." cta="View all →" />
+          <DashCard title="Notifications" href="/notifications" description="Review approvals, rejections, and badges." cta="View →" />
+          <DashCard title="Settings" href="/settings" description="Manage your account and preferences." cta="Open →" />
         </div>
       </div>
     </PageWrapper>

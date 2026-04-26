@@ -49,7 +49,7 @@ export async function PATCH(request: Request) {
         displayName, title, bio, locationCity, locationCountry, locationCountryCode,
         primaryRoles, specialties, tools, availability, experienceLevel,
         contactEmail, contactWebsite, contactLinkedin, contactInstagram,
-        contactBehance, contactDribbble,
+        contactBehance, contactDribbble, avatarUrl,
       } = body as any;
 
       const updated = await prisma.designerProfile.update({
@@ -72,6 +72,7 @@ export async function PATCH(request: Request) {
           ...(contactInstagram !== undefined && { contactInstagram }),
           ...(contactBehance !== undefined && { contactBehance }),
           ...(contactDribbble !== undefined && { contactDribbble }),
+          ...(avatarUrl !== undefined && { avatarUrl: avatarUrl || null }),
         },
       });
       return NextResponse.json(updated);
@@ -82,7 +83,7 @@ export async function PATCH(request: Request) {
         displayName, bio, locationCity, locationCountry, locationCountryCode,
         teamSize, specialties, pastClients,
         contactEmail, contactWebsite, contactLinkedin, contactInstagram,
-        contactBehance, contactDribbble,
+        contactBehance, contactDribbble, logoUrl,
       } = body as any;
 
       const updated = await prisma.agencyProfile.update({
@@ -102,6 +103,7 @@ export async function PATCH(request: Request) {
           ...(contactInstagram !== undefined && { contactInstagram }),
           ...(contactBehance !== undefined && { contactBehance }),
           ...(contactDribbble !== undefined && { contactDribbble }),
+          ...(logoUrl !== undefined && { logoUrl: logoUrl || null }),
         },
       });
       return NextResponse.json(updated);

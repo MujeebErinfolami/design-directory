@@ -52,6 +52,7 @@ export interface Designer {
   name: string;
   title: string;
   bio: string;
+  avatarUrl?: string | null;
   avatarColor: string;
   initials: string;
   location: DesignerLocation;
@@ -108,6 +109,7 @@ function mapProfile(p: ProfileWithAgencies): Designer {
     name: p.displayName,
     title: p.title,
     bio: p.bio,
+    avatarUrl: p.avatarUrl ?? null,
     avatarColor: p.avatarColor,
     initials: p.initials || p.displayName.slice(0, 2).toUpperCase(),
     location: {

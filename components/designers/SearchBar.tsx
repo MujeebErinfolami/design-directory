@@ -74,13 +74,13 @@ export function SearchBar({ value, total, sort }: SearchBarProps) {
       {/* Count + sort */}
       <div className="flex items-center gap-4 shrink-0">
         <span className="text-xs text-muted-foreground">
-          {total} {total === 1 ? "designer" : "designers"}
+          {total} {total === 1 ? "creative" : "creatives"}
         </span>
         <select
           value={sort}
           onChange={(e) => updateParams({ sort: e.target.value })}
           className="rounded-md border border-border bg-background py-1.5 pl-3 pr-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          aria-label="Sort designers"
+          aria-label="Sort creatives"
         >
           {SORT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>

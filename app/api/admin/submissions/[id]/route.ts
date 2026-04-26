@@ -36,7 +36,24 @@ export async function PATCH(request: Request, { params }: Params) {
         reviewedById: session.user.id,
         rejectionReason: action === "reject" ? (reason ?? null) : null,
       },
-      select: { id: true, title: true, status: true },
+      select: { id: true, title: true, status: true, submittedById: true, slug: true },
+    });
+
+    // Notify the submitter
+    await prisma.notification.create({
+      data: {
+        userId: project.submittedById,
+        type: action === "approve" ? "submission_approved" : "submission_rejected",
+        title: action === "approve"
+          ? `"${project.title}" has been approved`
+          : `"${project.title}" was not approved`,
+        body: action === "approve"
+          ? "Your project is now live on Rightstar Collective."
+          : reason
+          ? `Reason: ${reason}`
+          : "Your project did not meet the submission guidelines.",
+        link: action === "approve" ? `/projects/${project.slug}` : "/submissions",
+      },
     });
 
     return NextResponse.json(project);

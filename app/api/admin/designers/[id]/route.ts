@@ -27,8 +27,20 @@ export async function PATCH(request: Request, { params }: Params) {
     const profile = await prisma.designerProfile.update({
       where: { id },
       data: { isVerified: body.isVerified },
-      select: { id: true, displayName: true, isVerified: true },
+      select: { id: true, displayName: true, isVerified: true, userId: true },
     });
+
+    if (body.isVerified) {
+      await prisma.notification.create({
+        data: {
+          userId: profile.userId,
+          type: "badge_verified",
+          title: "Your profile has been verified",
+          body: "You've earned a verification badge on Rightstar Collective.",
+          link: "/profile",
+        },
+      });
+    }
 
     return NextResponse.json(profile);
   } catch (err) {
