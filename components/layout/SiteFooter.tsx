@@ -3,7 +3,7 @@ import Link from "next/link";
 const footerLinks = {
   Discover: [
     { href: "/projects", label: "Projects" },
-    { href: "/designers", label: "Designers" },
+    { href: "/designers", label: "Creatives" },
     { href: "/blog", label: "Blog" },
   ],
   Company: [
@@ -28,11 +28,11 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link href="/" className="text-lg font-bold text-foreground">
-              Design Directory
+              Rightstar Collective
             </Link>
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              Discover the world&apos;s best design work. Browse projects,
-              find designers, and connect with creative talent everywhere.
+              Discover the world&apos;s best creative work. Browse projects,
+              find creatives, and connect with talent everywhere.
             </p>
             <div className="mt-4 flex gap-4">
               {socialLinks.map((s) => (
@@ -70,7 +70,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-10 border-t border-border pt-6 text-center text-xs text-muted-foreground">
-          &copy; {new Date().getFullYear()} Design Directory. All rights reserved.
+          &copy; {new Date().getFullYear()} Rightstar Collective. All rights reserved.
         </div>
       </div>
     </footer>

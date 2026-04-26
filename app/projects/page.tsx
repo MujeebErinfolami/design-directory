@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description:
     "Browse thousands of credited design projects — branding, web, motion, print, product, and UX.",
   openGraph: {
-    title: "Projects — Design Directory",
+    title: "Projects — Rightstar Collective",
     description:
-      "Browse thousands of credited design projects — branding, web, motion, print, product, and UX.",
+      "Browse outstanding creative projects — branding, web, motion, print, product, and UX.",
   },
 };
 
@@ -47,13 +47,13 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
       <div className="mb-10 border-b border-border pb-8">
         <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           <span className="h-px w-8 bg-foreground/30" />
-          Design Directory
+          Rightstar Collective
         </p>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           Projects
         </h1>
         <p className="mt-3 max-w-xl text-base text-muted-foreground">
-          Credited design work from independent designers and leading studios
+          Credited creative work from independent creatives and leading studios
           worldwide.
         </p>
       </div>

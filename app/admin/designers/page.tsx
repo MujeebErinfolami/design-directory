@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { BackButton } from "@/components/layout/BackButton";
 import { VerifyToggle } from "./VerifyToggle";
 
-export const metadata = { title: "Admin — Designers" };
+export const metadata = { title: "Admin — Creatives" };
 
 export default async function AdminDesignersPage() {
   const designers = await prisma.designerProfile.findMany({

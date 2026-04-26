@@ -19,29 +19,63 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    const { title, description, category, tags, year, agencyName, agencyUrl, sourceUrl, credits } = body as any;
+    const {
+      title,
+      tagline,
+      description,
+      category,
+      tags,
+      year,
+      layoutType,
+      thumbnailUrl,
+      contentBlocks,
+      galleryUrls,
+      agencyName,
+      agencyUrl,
+      sourceUrl,
+      theme,
+      externalLink,
+      externalLinkLabel,
+      attachments,
+      status,
+      credits,
+    } = body as any;
 
-    if (!title) return NextResponse.json({ error: "title required" }, { status: 400 });
-    if (!description) return NextResponse.json({ error: "description required" }, { status: 400 });
-    if (!VALID_CATEGORIES.includes(category)) {
-      return NextResponse.json({ error: `category must be one of: ${VALID_CATEGORIES.join(", ")}` }, { status: 400 });
+    if (!title?.trim()) return NextResponse.json({ error: "title required" }, { status: 400 });
+    if (status !== "draft") {
+      if (!description?.trim()) return NextResponse.json({ error: "description required" }, { status: 400 });
+      if (!VALID_CATEGORIES.includes(category)) {
+        return NextResponse.json({ error: `category must be one of: ${VALID_CATEGORIES.join(", ")}` }, { status: 400 });
+      }
     }
+
+    const initialStatus = status === "draft" ? "draft" : "pending";
+    const layout = layoutType ?? "editor";
 
     const slug = await uniqueSlug(title, "project");
 
     const project = await prisma.project.create({
       data: {
         slug,
-        title,
-        description,
+        title: title.trim(),
+        tagline: tagline?.trim() ?? "",
+        description: description?.trim() ?? "",
         body: "",
-        category,
+        layoutType: layout,
+        thumbnailUrl: thumbnailUrl ?? "",
+        contentBlocks: Array.isArray(contentBlocks) ? contentBlocks : [],
+        galleryUrls: Array.isArray(galleryUrls) ? galleryUrls : [],
+        category: category ?? "Branding",
         tags: Array.isArray(tags) ? tags : [],
         year: year ? parseInt(year, 10) : new Date().getFullYear(),
         agencyName: agencyName ?? "",
         agencyUrl: agencyUrl ?? "",
         sourceUrl: sourceUrl ?? "",
-        status: "pending",
+        theme: theme ?? "light",
+        externalLink: externalLink ?? "",
+        externalLinkLabel: externalLinkLabel ?? "View Project",
+        attachments: Array.isArray(attachments) ? attachments : [],
+        status: initialStatus,
         submittedById: session.user.id,
         credits: {
           create: Array.isArray(credits)

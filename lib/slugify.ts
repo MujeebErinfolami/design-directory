@@ -10,7 +10,7 @@ export function toSlug(name: string): string {
 
 export async function uniqueSlug(
   base: string,
-  table: "designerProfile" | "agencyProfile" | "project"
+  table: "designerProfile" | "agencyProfile" | "project" | "blogPost"
 ): Promise<string> {
   const slug = toSlug(base);
   const exists = await (prisma[table] as any).findUnique({ where: { slug } });

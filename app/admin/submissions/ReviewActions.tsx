@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type Status = "pending" | "approved" | "rejected";
+type Status = "draft" | "pending" | "approved" | "rejected";
 
 export function ReviewActions({ id, currentStatus }: { id: string; currentStatus: Status }) {
   const router = useRouter();
@@ -101,11 +101,13 @@ export function ReviewActions({ id, currentStatus }: { id: string; currentStatus
 
 function StatusBadge({ status }: { status: Status }) {
   const styles: Record<Status, string> = {
+    draft:    "bg-zinc-50 text-zinc-600 border-zinc-200",
     pending:  "bg-amber-50 text-amber-700 border-amber-200",
     approved: "bg-emerald-50 text-emerald-700 border-emerald-200",
     rejected: "bg-red-50 text-red-700 border-red-200",
   };
   const labels: Record<Status, string> = {
+    draft:    "Draft",
     pending:  "Pending",
     approved: "Approved",
     rejected: "Rejected",

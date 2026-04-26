@@ -18,23 +18,23 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://design-directory.vercel.app"),
   title: {
-    default: "Design Directory",
-    template: "%s | Design Directory",
+    default: "Rightstar Collective",
+    template: "%s | Rightstar Collective",
   },
   description:
-    "Discover the world's best design projects and find talented designers by location, specialty, and availability.",
+    "Rightstar Collective — discover outstanding creative work and connect with talented creatives by location, discipline, and availability.",
   openGraph: {
-    siteName: "Design Directory",
+    siteName: "Rightstar Collective",
     type: "website",
-    title: "Design Directory",
+    title: "Rightstar Collective",
     description:
-      "Discover the world's best design projects and find talented designers by location, specialty, and availability.",
+      "Rightstar Collective — discover outstanding creative work and connect with talented creatives by location, discipline, and availability.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Design Directory",
+    title: "Rightstar Collective",
     description:
-      "Discover the world's best design projects and find talented designers by location, specialty, and availability.",
+      "Rightstar Collective — discover outstanding creative work and connect with talented creatives by location, discipline, and availability.",
   },
 };
 

@@ -5,13 +5,13 @@ import { ServicesSection } from "@/components/landing/ServicesSection";
 import { BlogPreviewSection } from "@/components/landing/BlogPreviewSection";
 
 export const metadata: Metadata = {
-  title: "Design Directory — Where Great Design Gets Discovered",
+  title: "Rightstar Collective — Where Creative Work Gets Discovered",
   description:
-    "Browse thousands of credited design projects. Find talented designers anywhere in the world and connect with them directly.",
+    "Browse outstanding creative projects. Find talented creatives anywhere in the world and connect with them directly.",
   openGraph: {
-    title: "Design Directory — Where Great Design Gets Discovered",
+    title: "Rightstar Collective — Where Creative Work Gets Discovered",
     description:
-      "Browse thousands of credited design projects. Find talented designers anywhere in the world and connect with them directly.",
+      "Browse outstanding creative projects. Find talented creatives anywhere in the world and connect with them directly.",
   },
 };
 

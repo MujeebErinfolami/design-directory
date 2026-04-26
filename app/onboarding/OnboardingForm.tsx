@@ -66,7 +66,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight">Welcome to Design Directory</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Welcome to Rightstar Collective</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             How would you like to use the platform?
           </p>

@@ -402,6 +402,196 @@ const agencies = [
   },
 ];
 
+// ── Projects ──────────────────────────────────────────────────────────────────
+
+const THUMBNAIL_COLORS = [
+  "#e2d9f3","#d1ecf1","#fce8d5","#d4edda","#f8d7da","#fff3cd",
+  "#cce5ff","#e9ecef","#f0e6ff","#d6f0e0","#ffe4cc","#dbeafe",
+];
+
+const projects = [
+  {
+    creativeEmail: "jessica-hische@seed.designdirectory.dev",
+    slug: "hische-lettering-series",
+    title: "Hische Lettering Series",
+    description: "A personal lettering project exploring decorative drop caps inspired by Victorian-era print ephemera and Art Nouveau ornament.",
+    body: "This series began as a daily practice — one drop cap per day for 26 days, one for each letter of the alphabet. What started as a discipline became an obsession with the decorative possibilities of the single letterform.\n\nEach cap is built in Illustrator from hand-drawn sketches, then refined through multiple rounds of digital iteration. The palette is deliberately limited: two inks per letter, with ornamentation drawn from Victorian botanical engravings and Art Nouveau ironwork.\n\nThe project was picked up by Penguin Books as a limited-edition print series, with proceeds going to literacy nonprofits. It later became the basis for a typeface released through Future Fonts.",
+    thumbnailColor: "#e2d9f3",
+    category: "Branding" as const,
+    tags: ["lettering", "typography", "illustration", "print"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://jessicahische.is",
+    isFeatured: true,
+  },
+  {
+    creativeEmail: "aaron-draplin@seed.designdirectory.dev",
+    slug: "field-notes-vol-12",
+    title: "Field Notes Vol. 12",
+    description: "The twelfth edition of the Field Notes memo book series, designed with a railroad theme using classic American industrial type and ink on kraft stock.",
+    body: "Volume 12 came out of a trip through the American midwest — specifically a week spent photographing railroad infrastructure in Indiana and Illinois. The typography references the painted signage on grain elevators, the stencilled markings on freight cars, and the letterpress printing that still happens in a handful of small-town print shops.\n\nThe books use two colours of ink on kraft paper: a deep navy and a rust orange that age together over time. The cover grid is built on a strict 6-column system derived from the proportions of a standard railroad tie.\n\nWe printed 20,000 copies in the first run. They sold out in eleven days.",
+    thumbnailColor: "#fce8d5",
+    category: "Print" as const,
+    tags: ["print", "typography", "packaging", "americana"],
+    year: 2025,
+    agencyName: "Draplin Design Co.",
+    agencyUrl: "https://draplin.com",
+    sourceUrl: "https://draplin.com",
+    isFeatured: true,
+  },
+  {
+    creativeEmail: "tobias-van-schneider@seed.designdirectory.dev",
+    slug: "spotify-wrapped-2025",
+    title: "Spotify Wrapped 2025",
+    description: "Annual year-in-review experience for Spotify's 600 million users — a personalized data visualization campaign spanning app, web, and social.",
+    body: "Wrapped 2025 introduced a new motion language for the feature — one built around the idea of 'sound made visible.' Every transition, every data reveal, every share card had to feel like it was responding to the music rather than simply displaying data about it.\n\nThe design system was built in Figma and handed off to engineering teams across three continents. The motion specifications ran to 140 pages. The social share templates alone covered 23 different aspect ratios across 6 platforms.\n\nThe campaign reached 600 million users in its first 72 hours. It was the highest-engagement product moment in Spotify's history at the time of launch.",
+    thumbnailColor: "#d4edda",
+    category: "UX" as const,
+    tags: ["product design", "data visualization", "motion", "campaign"],
+    year: 2025,
+    agencyName: "Spotify",
+    agencyUrl: "https://spotify.com",
+    sourceUrl: "https://spotify.com/wrapped",
+    isFeatured: true,
+  },
+  {
+    creativeEmail: "lotta-nieminen@seed.designdirectory.dev",
+    slug: "new-yorker-summer-fiction",
+    title: "The New Yorker Summer Fiction",
+    description: "Cover illustration and interior spot work for The New Yorker's annual Summer Fiction issue — a celebration of literary escapism.",
+    body: "The brief was deceptively simple: summer reading. The New Yorker's art direction team gave almost no further specification, which is both liberating and terrifying.\n\nI landed on the image of a reader so absorbed in their book that the book begins to grow — vines and leaves sprouting from the cover, wrapping around the reader's arms. The palette came from the garden outside my studio: terracotta, sage, a very specific dusty pink that only exists in late July light.\n\nThe cover ran in June. The interior spot illustrations extend the botanical theme, with a different plant motif for each story. The commission took six weeks from first sketch to final art.",
+    thumbnailColor: "#f0e6ff",
+    category: "Print" as const,
+    tags: ["illustration", "editorial", "print", "cover art"],
+    year: 2025,
+    agencyName: "The New Yorker",
+    agencyUrl: "https://newyorker.com",
+    sourceUrl: "https://newyorker.com",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "bradley-munkowitz@seed.designdirectory.dev",
+    slug: "sequence-01-showreel",
+    title: "Sequence 01 Showreel",
+    description: "A personal motion showreel exploring light, geometry, and the space between analog and digital — rendered entirely in Cinema 4D and composited in After Effects.",
+    body: "Sequence 01 is a personal project I have been building in the gaps between client work for the better part of two years. The premise is simple: what does it feel like when light passes through architecture?\n\nAll geometry is procedurally generated — no hand-modelled objects anywhere in the piece. The lighting rigs are based on studies of real industrial spaces: a factory in Detroit, a transit hub in Singapore, a power station outside London.\n\nThe audio was composed first, then the visuals were cut to match. This is the opposite of my usual process, and the results feel different in a way I'm still trying to describe.\n\nThe piece runs 4 minutes and has been exhibited at motion design festivals in Los Angeles, Berlin, and Seoul.",
+    thumbnailColor: "#cce5ff",
+    category: "Motion" as const,
+    tags: ["motion", "3d", "generative", "personal project"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://gmunk.com",
+    isFeatured: true,
+  },
+  {
+    creativeEmail: "pieter-janssen@seed.designdirectory.dev",
+    slug: "de-correspondent-redesign",
+    title: "De Correspondent Redesign",
+    description: "Full editorial redesign of the Dutch investigative journalism platform — rethinking the relationship between long-form reading and digital typography.",
+    body: "De Correspondent publishes slow journalism — long, deeply reported pieces that are the opposite of the news cycle. The existing design had been built for speed: big images, short decks, skimmable layouts. It was fighting the content.\n\nThe redesign starts from the assumption that if someone is reading a 6,000-word piece, they have already decided to commit. The job of the layout is to get out of the way and let them read.\n\nWe chose a custom-cut variant of Freight Text for the body. The measure is narrow — 65 characters — which is aggressive by web standards but correct for reading. The interface chrome reduced to almost nothing: no persistent navigation, no recommendations sidebar, no related articles until the reader finishes.\n\nDwell time on long-form pieces increased by 40% in the six months after launch.",
+    thumbnailColor: "#fff3cd",
+    category: "Web" as const,
+    tags: ["editorial", "typography", "web design", "reading experience"],
+    year: 2024,
+    agencyName: "De Correspondent",
+    agencyUrl: "https://decorrespondent.nl",
+    sourceUrl: "https://decorrespondent.nl",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "marcus-tran@seed.designdirectory.dev",
+    slug: "saigon-coffee-brand-identity",
+    title: "Saigon Coffee Co. Brand Identity",
+    description: "Full visual identity for a specialty coffee chain rooted in Ho Chi Minh City — drawing on Vietnamese street typography and mid-century export packaging.",
+    body: "Saigon Coffee Co. wanted to be a Vietnamese coffee brand that didn't look like every other Vietnamese coffee brand. The brief was blunt: no lotus flowers, no conical hats, no obvious heritage signalling.\n\nThe solution came from the streets. Ho Chi Minh City is one of the richest typographic environments in Southeast Asia — painted signs, vinyl lettering, stencilled shop names in a mix of Vietnamese and French that reflects the country's layered history.\n\nThe wordmark is hand-drawn, referencing painted enamel signage from the 1960s. The secondary palette is pulled from the colours of Cholon market: burnt yellow, deep teal, terracotta red. The brand has now expanded to 12 locations across Vietnam and two in Singapore.",
+    thumbnailColor: "#d6f0e0",
+    category: "Branding" as const,
+    tags: ["brand identity", "logo", "packaging", "vietnam"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://behance.net/marcustrandesign",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "yuki-tanaka@seed.designdirectory.dev",
+    slug: "sakura-motion-series",
+    title: "Sakura Motion Series",
+    description: "A generative animation series exploring the lifecycle of cherry blossom — built in After Effects with custom particle systems that simulate botanical growth.",
+    body: "The sakura season in Japan lasts about two weeks. In those two weeks, there is an entire visual culture that activates — television specials, packaging, advertising, everything goes pink. Most of it is terrible.\n\nI wanted to make something that took the subject seriously as a study in transience. The animations are built from custom particle emitters that simulate how actual cherry blossom petals move — the physics are based on fluid dynamics studies of falling leaves, not the generic loop presets that most motion designers reach for.\n\nEach piece in the series runs exactly 14 seconds — one second for each day of the average bloom season. The series has been used in brand campaigns by three Japanese cosmetics companies and exhibited at the ICC in Tokyo.",
+    thumbnailColor: "#fce7f3",
+    category: "Motion" as const,
+    tags: ["motion", "generative", "japan", "nature"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://yukitanaka.work",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "sophia-cipolletta@seed.designdirectory.dev",
+    slug: "atlas-studio-site",
+    title: "Atlas Studio — Website Redesign",
+    description: "Complete design system and website redesign for a Berlin-based architecture studio, balancing editorial ambition with technical accessibility requirements.",
+    body: "Atlas Studio came to us with a portfolio that had outgrown its container. They had recently completed three landmark projects and needed a digital presence that could hold work of that scale.\n\nThe challenge with architecture websites is always the same: how do you represent three-dimensional space in two dimensions without making the photography do all the work? We solved it through sequencing — the projects unfold as controlled narratives, with drawings, models, and photography woven together rather than segregated.\n\nThe design system was built in Figma and delivered as a fully documented component library. WCAG 2.1 AA compliance was a hard requirement from the client. All interactive states were user-tested with participants who use screen readers.",
+    thumbnailColor: "#e9ecef",
+    category: "Web" as const,
+    tags: ["web design", "design system", "architecture", "accessibility"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://dribbble.com/sophiacipo",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "femi-ogundele@seed.designdirectory.dev",
+    slug: "lagos-fashion-week-identity",
+    title: "Lagos Fashion Week Identity",
+    description: "Visual identity system for Lagos Fashion Week — celebrating Nigerian design on a global stage through a bold typographic and pattern-driven brand language.",
+    body: "Lagos Fashion Week is the continent's leading fashion event and one of the fastest-growing on the global calendar. The identity brief was clear: it needs to feel global without losing its roots.\n\nThe logotype is a custom-drawn wordmark that takes its proportions from Aso-oke weaving patterns — the spacing between letterforms mirrors the warp-and-weft rhythm of traditional Yoruba cloth. The secondary pattern system is built from the same geometric module, scalable from embossed business cards to 40-metre event banners.\n\nThe colour system rotates across three editions per year — each season gets its own palette derived from a specific Nigerian textile tradition. The identity was nominated for a D&AD pencil in 2025.",
+    thumbnailColor: "#ffe4cc",
+    category: "Branding" as const,
+    tags: ["brand identity", "fashion", "africa", "pattern"],
+    year: 2025,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://behance.net/femidsgns",
+    isFeatured: true,
+  },
+  {
+    creativeEmail: "ananya-krishnan@seed.designdirectory.dev",
+    slug: "swiggy-grocery-ux-overhaul",
+    title: "Swiggy Grocery UX Overhaul",
+    description: "End-to-end UX redesign of Swiggy Instamart — reducing checkout friction and improving product discovery for 50 million monthly active users.",
+    body: "Swiggy Instamart had grown from a side project into a primary revenue driver in under 18 months. The interface had grown with it — feature by feature, sprint by sprint — until the seams were showing.\n\nThe research phase took eight weeks and covered 200 users across six Indian cities. The key insight was counterintuitive: users didn't want more features, they wanted fewer choices per screen. The cognitive load of the existing browse experience was causing significant drop-off at the category level.\n\nThe redesign reduced the number of tappable elements on the home screen by 60%. Category navigation was rebuilt around need-states rather than product taxonomy. Checkout was reduced from 7 steps to 3.\n\nConversion rate increased by 23% in the first month post-launch. Average order value increased by 11%.",
+    thumbnailColor: "#dbeafe",
+    category: "UX" as const,
+    tags: ["product design", "ux research", "mobile", "ecommerce"],
+    year: 2024,
+    agencyName: "Swiggy",
+    agencyUrl: "https://swiggy.com",
+    sourceUrl: "https://dribbble.com/ananyak",
+    isFeatured: false,
+  },
+  {
+    creativeEmail: "emilio-gomariz@seed.designdirectory.dev",
+    slug: "glitch-pattern-collection",
+    title: "Glitch Pattern Collection",
+    description: "A generative art series built on controlled digital corruption — 48 prints that explore the aesthetic of data decay and machine error.",
+    body: "The Glitch Pattern Collection started as an accident. A rendering error in Cinema 4D produced an output so interesting that I spent the next four months trying to reproduce it deliberately.\n\nThe work explores what happens when you treat digital error as a design material rather than a problem to be fixed. Each piece is generated through a custom pipeline that introduces controlled corruption at specific points in the rendering process — just enough degradation to feel wrong, not so much that the underlying structure disappears.\n\nThe collection was printed as a limited run of 48 archival giclée prints, each unique. It sold out through an online drop within 3 hours. A selection of the work was later exhibited at the Fundació Antoni Tàpies in Barcelona.",
+    thumbnailColor: "#fef9c3",
+    category: "Product" as const,
+    tags: ["generative", "print", "digital art", "glitch"],
+    year: 2024,
+    agencyName: "",
+    agencyUrl: "",
+    sourceUrl: "https://emiliogomariz.com",
+    isFeatured: false,
+  },
+];
+
 // ── Blog posts ────────────────────────────────────────────────────────────────
 
 const posts = [
@@ -588,6 +778,34 @@ async function main() {
     });
   }
 
+  // Create projects
+  console.log(`  Creating ${projects.length} projects…`);
+  let thumbIdx = 0;
+  for (const proj of projects) {
+    const user = await prisma.user.findUnique({ where: { email: proj.creativeEmail } });
+    if (!user) { console.warn(`  ⚠ User not found: ${proj.creativeEmail}`); continue; }
+    await prisma.project.create({
+      data: {
+        slug: proj.slug,
+        title: proj.title,
+        description: proj.description,
+        body: proj.body,
+        thumbnailColor: THUMBNAIL_COLORS[thumbIdx++ % THUMBNAIL_COLORS.length],
+        category: proj.category,
+        tags: proj.tags,
+        year: proj.year,
+        agencyName: proj.agencyName,
+        agencyUrl: proj.agencyUrl,
+        sourceUrl: proj.sourceUrl,
+        status: "approved",
+        submittedById: user.id,
+        isFeatured: proj.isFeatured,
+        submittedAt: new Date(),
+        reviewedAt: new Date(),
+      },
+    });
+  }
+
   // Create agency users + profiles
   console.log(`  Creating ${agencies.length} agency profiles…`);
   for (const a of agencies) {
@@ -646,10 +864,12 @@ async function main() {
   const profileCount  = await prisma.designerProfile.count();
   const agencyCount   = await prisma.agencyProfile.count();
   const blogPostCount = await prisma.blogPost.count();
+  const projectCount  = await prisma.project.count();
 
   console.log(`\n✅ Seeded:`);
   console.log(`   ${profileCount} creative profiles`);
   console.log(`   ${agencyCount} agency profiles`);
+  console.log(`   ${projectCount} projects`);
   console.log(`   ${blogPostCount} blog posts`);
 }
 

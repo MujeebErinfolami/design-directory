@@ -20,7 +20,7 @@ export function CreditsBlock({ project }: CreditsBlockProps) {
             {project.designer.initials}
           </div>
           <div>
-            <dt className="text-xs text-muted-foreground">Designer</dt>
+            <dt className="text-xs text-muted-foreground">Creative</dt>
             <dd className="mt-0.5 text-sm font-medium text-foreground">
               <Link
                 href={`/designers/${project.designer.slug}`}

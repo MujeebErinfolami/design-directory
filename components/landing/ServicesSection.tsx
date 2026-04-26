@@ -19,7 +19,7 @@ const services: Service[] = [
   {
     icon: LayoutGrid,
     number: "02",
-    title: "Designer Profiles",
+    title: "Creative Profiles",
     description:
       "Build a searchable profile showcasing your portfolio, location, specialties, and availability. Get discovered by brands, studios, and recruiters looking for exactly your skills.",
   },
@@ -64,7 +64,7 @@ export function ServicesSection() {
           <div className="flex items-end">
             <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
               From submitting a single project to building a full presence,
-              the directory gives designers and agencies the tools to be seen
+              the directory gives creatives and agencies the tools to be seen
               by the right people.
             </p>
           </div>

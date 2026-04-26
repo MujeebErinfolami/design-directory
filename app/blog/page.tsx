@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "Ideas on design craft — branding, UX, motion, typography, and the practice of design.",
   openGraph: {
-    title: "Blog — Design Directory",
+    title: "Blog — Rightstar Collective",
     description:
       "Ideas on design craft — branding, UX, motion, typography, and the practice of design.",
   },
@@ -36,7 +36,7 @@ export default async function BlogIndexPage() {
       <div className="mb-12 border-b border-border pb-8">
         <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           <span className="h-px w-8 bg-foreground/30" />
-          Design Directory
+          Rightstar Collective
         </p>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           Blog

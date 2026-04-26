@@ -115,7 +115,8 @@
       "Bash(git write-tree *)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(npm list *)"
     ]
   }
 }

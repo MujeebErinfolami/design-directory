@@ -6,7 +6,7 @@ const highlights = [
   },
   {
     stat: "800+",
-    label: "Designer profiles",
+    label: "Creative profiles",
     description: "Searchable by location, specialty, and availability.",
   },
   {
@@ -41,9 +41,9 @@ export function AboutSection() {
 
             <div className="mt-8 space-y-5 text-base leading-relaxed text-muted-foreground">
               <p>
-                Design Directory was built to close the gap between remarkable
+                Rightstar Collective was built to close the gap between remarkable
                 creative work and the people who need to find it. Too much
-                brilliant design lives only in a designer&apos;s hard drive or
+                brilliant work lives only in a creative&apos;s hard drive or
                 a studio&apos;s internal portfolio.
               </p>
               <p>

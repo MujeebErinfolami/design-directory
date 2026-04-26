@@ -47,6 +47,7 @@ enum ProjectCategory {
 }
 
 enum ProjectStatus {
+  draft
   pending
   approved
   rejected
@@ -139,6 +140,7 @@ model User {
   designerProfile  DesignerProfile?
   agencyProfile    AgencyProfile?
   submittedProjects Project[]        @relation("SubmittedBy")
+  submittedBlogPosts BlogPost[]     @relation("BlogSubmittedBy")
   grantedBadges    ProjectBadge[]   @relation("GrantedBy")
   uploadedImages   Image[]
   subscription     Subscription?
@@ -243,8 +245,15 @@ model Project {
   id              String          @id @default(cuid())
   slug            String          @unique
   title           String
+  tagline         String          @default("")
   description     String
   body            String          @db.Text
+  layoutType      String          @default("case_study") // "case_study" | "gallery" | "editor"
+  contentBlocks   Json            @default("[]")          // ContentBlock[]
+  theme           String          @default("light")
+  externalLink    String          @default("")
+  externalLinkLabel String        @default("View Project")
+  attachments     Json            @default("[]")
   thumbnailUrl    String          @default("") // Vercel Blob URL (empty during seed — colour used as fallback)
   thumbnailColor  String          @default("#f5f5f4") // colour fallback kept from seed data
   galleryUrls     String[]
@@ -325,18 +334,25 @@ model Image {
 // ─────────────────────────────────────────────
 
 model BlogPost {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  excerpt     String
-  body        String   @db.Text
-  category    String
-  authorName  String
-  authorTitle String
-  readTime    String
-  featured    Boolean  @default(false)
-  publishedAt DateTime @default(now())
-  createdAt   DateTime @default(now())
+  id             String    @id @default(cuid())
+  slug           String    @unique
+  title          String
+  subtitle       String    @default("")
+  excerpt        String
+  body           String    @db.Text
+  coverImageUrl  String    @default("")
+  contentBlocks  Json      @default("[]") // RichBlock[]
+  category       String
+  authorName     String
+  authorTitle    String
+  readTime       String    @default("")
+  featured       Boolean   @default(false)
+  status         String    @default("published") // "published" | "pending" | "rejected"
+  submittedById  String?
+  publishedAt    DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+
+  submittedBy User? @relation("BlogSubmittedBy", fields: [submittedById], references: [id], onDelete: SetNull)
 }
 
 // ─────────────────────────────────────────────

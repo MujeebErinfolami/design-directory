@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: designer.name,
     description: `${designer.title} based in ${designer.location.city}. ${designer.bio.slice(0, 120)}…`,
     openGraph: {
-      title: `${designer.name} — Design Directory`,
+      title: `${designer.name} — Rightstar Collective`,
       description: designer.bio,
     },
   };

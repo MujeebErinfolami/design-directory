@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 const stats = [
   { value: "2,400+", label: "Projects" },
-  { value: "800+", label: "Designers" },
+  { value: "800+", label: "Creatives" },
   { value: "60+", label: "Countries" },
 ];
 
@@ -29,21 +29,21 @@ export function HeroSection() {
           {/* Eyebrow */}
           <p className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
             <span className="h-px w-8 bg-foreground/30" />
-            The Design Directory
+            Rightstar Collective
           </p>
 
           {/* Headline */}
           <h1 className="text-5xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-            Where great
+            Where bold
             <br />
-            <span className="italic font-light">design</span> gets
+            <span className="italic font-light">creative work</span>
             <br />
-            discovered.
+            finds its people.
           </h1>
 
           {/* Sub */}
           <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-            Browse thousands of credited design projects. Find talented designers
+            Browse outstanding creative projects. Find talented creatives
             anywhere in the world and connect with them directly.
           </p>
 
@@ -60,7 +60,7 @@ export function HeroSection() {
               href="/designers"
               className="inline-flex items-center gap-2 rounded-md border border-border px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
             >
-              Find a Designer
+              Find a Creative
             </Link>
           </div>
 

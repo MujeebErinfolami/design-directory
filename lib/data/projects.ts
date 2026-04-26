@@ -12,13 +12,29 @@ export interface ProjectDesigner {
   initials: string;
 }
 
+export type ContentBlock =
+  | { type: "text"; content: string }
+  | { type: "image"; url: string; caption: string }
+  | { id: string; type: "text"; html: string }
+  | { id: string; type: "image"; url: string; caption: string }
+  | { id: string; type: "photo_grid"; urls: string[]; caption: string }
+  | { id: string; type: "video"; embedUrl: string; caption: string }
+  | { id: string; type: "embed"; code: string; caption: string };
+
+export interface ProjectAttachment { name: string; url: string; size: number }
+
 export interface Project {
   id: string;
   slug: string;
   title: string;
+  tagline: string;
   description: string;
   body: string;
+  layoutType: "case_study" | "gallery" | "editor";
+  contentBlocks: ContentBlock[];
+  thumbnailUrl: string;
   thumbnailColor: string;
+  galleryUrls: string[];
   category: Category;
   tags: string[];
   year: number;
@@ -26,6 +42,10 @@ export interface Project {
   agencyName: string;
   agencyUrl: string;
   sourceUrl: string;
+  theme: string;
+  externalLink: string;
+  externalLinkLabel: string;
+  attachments: ProjectAttachment[];
   featured: boolean;
   createdAt: string;
 }
@@ -69,9 +89,14 @@ function mapProject(p: ProjectWithSubmitter): Project {
     id: p.id,
     slug: p.slug,
     title: p.title,
+    tagline: p.tagline ?? "",
     description: p.description,
     body: p.body,
+    layoutType: (["gallery", "editor"].includes(p.layoutType ?? "") ? p.layoutType : "case_study") as "case_study" | "gallery" | "editor",
+    contentBlocks: Array.isArray(p.contentBlocks) ? (p.contentBlocks as ContentBlock[]) : [],
+    thumbnailUrl: p.thumbnailUrl ?? "",
     thumbnailColor: p.thumbnailColor,
+    galleryUrls: p.galleryUrls ?? [],
     category: p.category as Category,
     tags: p.tags,
     year: p.year,
@@ -79,6 +104,10 @@ function mapProject(p: ProjectWithSubmitter): Project {
     agencyName: p.agencyName,
     agencyUrl: p.agencyUrl,
     sourceUrl: p.sourceUrl,
+    theme: (p as any).theme ?? "light",
+    externalLink: (p as any).externalLink ?? "",
+    externalLinkLabel: (p as any).externalLinkLabel ?? "View Project",
+    attachments: Array.isArray((p as any).attachments) ? (p as any).attachments : [],
     featured: p.isFeatured,
     createdAt: p.createdAt.toISOString().slice(0, 10),
   };

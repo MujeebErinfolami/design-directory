@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Creatives",
   description: "Search and discover talented creatives by role, availability, and location.",
   openGraph: {
-    title: "Creatives — Design Directory",
+    title: "Creatives — Rightstar Collective",
     description: "Search and discover talented creatives by role, availability, and location.",
   },
 };
@@ -80,7 +80,7 @@ export default async function DesignersPage({ searchParams }: PageProps) {
       <div className="mb-8 border-b border-border pb-8">
         <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
           <span className="h-px w-8 bg-foreground/30" />
-          Design Directory
+          Rightstar Collective
         </p>
         <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           Creatives

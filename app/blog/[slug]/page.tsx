@@ -11,6 +11,7 @@ import {
   getRelatedPosts,
   formatPostDate,
   CATEGORY_STYLES,
+  type RichBlock,
 } from "@/lib/data/posts";
 
 interface PageProps {
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: post.title,
     description: post.excerpt,
     openGraph: {
-      title: `${post.title} — Design Directory`,
+      title: `${post.title} — Rightstar Collective`,
       description: post.excerpt,
     },
   };
@@ -42,22 +43,17 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const related = await getRelatedPosts(post, 3);
-  const categoryStyle =
-    CATEGORY_STYLES[post.category] ?? "bg-zinc-100 text-zinc-700";
+  const categoryStyle = CATEGORY_STYLES[post.category] ?? "bg-zinc-100 text-zinc-700";
 
   return (
     <PageWrapper>
-      {/* Back link */}
       <div className="mb-10">
         <BackButton href="/blog" label="All articles" />
       </div>
 
-      {/* Article */}
       <article className="mx-auto max-w-2xl">
         {/* Category */}
-        <span
-          className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${categoryStyle}`}
-        >
+        <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${categoryStyle}`}>
           {post.category}
         </span>
 
@@ -66,10 +62,27 @@ export default async function BlogPostPage({ params }: PageProps) {
           {post.title}
         </h1>
 
-        {/* Excerpt */}
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          {post.excerpt}
-        </p>
+        {/* Subtitle (user-submitted posts) */}
+        {post.subtitle && (
+          <p className="mt-3 text-xl leading-relaxed text-muted-foreground">{post.subtitle}</p>
+        )}
+
+        {/* Excerpt (seeded posts show this; user posts derive it) */}
+        {!post.subtitle && post.excerpt && (
+          <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{post.excerpt}</p>
+        )}
+
+        {/* Cover image */}
+        {post.coverImageUrl && (
+          <div className="mt-8 overflow-hidden rounded-xl border border-border">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={post.coverImageUrl}
+              alt={post.title}
+              className="w-full object-cover"
+            />
+          </div>
+        )}
 
         {/* Byline */}
         <div className="mt-8 border-t border-border pt-8">
@@ -80,16 +93,19 @@ export default async function BlogPostPage({ params }: PageProps) {
           />
         </div>
 
-        {/* Body */}
+        {/* Body — rich blocks or legacy plain text */}
         <div className="mt-10 space-y-6">
-          {post.body.split("\n\n").map((para, i) => (
-            <p
-              key={i}
-              className="text-base leading-relaxed text-foreground/80"
-            >
-              {para}
-            </p>
-          ))}
+          {post.contentBlocks.length > 0 ? (
+            post.contentBlocks.map((block, i) => (
+              <RichBlockRenderer key={i} block={block} />
+            ))
+          ) : (
+            post.body.split("\n\n").map((para, i) => (
+              <p key={i} className="text-base leading-relaxed text-foreground/80">
+                {para}
+              </p>
+            ))
+          )}
         </div>
       </article>
 
@@ -108,9 +124,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-            {related.map((r) => (
-              <BlogCard key={r.slug} post={r} />
-            ))}
+            {related.map((r) => <BlogCard key={r.slug} post={r} />)}
           </div>
         </div>
       )}
@@ -126,5 +140,29 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
       )}
     </PageWrapper>
+  );
+}
+
+function RichBlockRenderer({ block }: { block: RichBlock }) {
+  if (block.type === "heading") {
+    return (
+      <h2 className="text-xl font-semibold tracking-tight text-foreground">{block.content}</h2>
+    );
+  }
+  if (block.type === "paragraph") {
+    return (
+      <p className="text-base leading-relaxed text-foreground/80">{block.content}</p>
+    );
+  }
+  return (
+    <figure className="overflow-hidden rounded-xl border border-border">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={block.url} alt={block.caption || ""} className="w-full object-cover" />
+      {block.caption && (
+        <figcaption className="border-t border-border px-4 py-2.5 text-xs text-muted-foreground">
+          {block.caption}
+        </figcaption>
+      )}
+    </figure>
   );
 }
