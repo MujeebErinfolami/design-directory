@@ -4,11 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { authConfig } from "./auth.config";
 import type { AccountType } from "@prisma/client";
 
-// Auth.js v5 reads AUTH_URL (not NEXTAUTH_URL). On Vercel, bootstrap it from
-// VERCEL_PROJECT_PRODUCTION_URL so the OAuth callback URI is always correct,
-// even if NEXTAUTH_URL was previously set in the Vercel dashboard.
+// Auth.js v5 reads AUTH_URL (not NEXTAUTH_URL). On Vercel, derive it from
+// VERCEL_PROJECT_PRODUCTION_URL when AUTH_URL is not explicitly set.
 if (process.env.VERCEL && !process.env.AUTH_URL) {
-  const prod = process.env.VERCEL_PROJECT_PRODUCTION_URL; // e.g. "design-directory.vercel.app"
+  const prod = process.env.VERCEL_PROJECT_PRODUCTION_URL;
   if (prod) process.env.AUTH_URL = `https://${prod}`;
 }
 
@@ -35,32 +34,22 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
   trustHost: true,
   callbacks: {
-    ...authConfig.callbacks,
-    async signIn({ account }) {
-      const base = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? "(auto-detected)";
-      console.log(`[auth] signIn provider=${account?.provider} AUTH_URL=${base} callback=${base}/api/auth/callback/${account?.provider}`);
-      return true;
-    },
+    // Keep the edge-safe authorized check from authConfig
+    authorized: authConfig.callbacks!.authorized,
+
     async jwt({ token, user, trigger }) {
-      // On sign-in, load platform fields from DB
-      if (user) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: user.id },
-          select: { accountType: true, isAdmin: true, subscriptionTier: true },
-        });
-        token.accountType = dbUser?.accountType ?? null;
-        token.isAdmin = dbUser?.isAdmin ?? false;
-        token.subscriptionTier = dbUser?.subscriptionTier ?? "free";
-      }
-      // After onboarding or profile update, refresh fields from DB
-      if (trigger === "update" || user) {
+      // Run on sign-in (user defined) or explicit session update (trigger="update")
+      if (user || trigger === "update") {
         const uid = (user?.id ?? token.sub) as string;
         const dbUser = await prisma.user.findUnique({
           where: { id: uid },
           select: {
-            accountType: true, isAdmin: true, subscriptionTier: true,
+            accountType: true,
+            isAdmin: true,
+            subscriptionTier: true,
             designerProfile: { select: { avatarUrl: true } },
             agencyProfile: { select: { logoUrl: true } },
           },
@@ -77,6 +66,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return token;
     },
+
     session({ session, token }) {
       session.user.id = token.sub as string;
       session.user.accountType = (token.accountType as AccountType) ?? null;
