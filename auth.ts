@@ -4,6 +4,14 @@ import { prisma } from "@/lib/prisma";
 import { authConfig } from "./auth.config";
 import type { AccountType } from "@prisma/client";
 
+// Auth.js v5 reads AUTH_URL (not NEXTAUTH_URL). On Vercel, bootstrap it from
+// VERCEL_PROJECT_PRODUCTION_URL so the OAuth callback URI is always correct,
+// even if NEXTAUTH_URL was previously set in the Vercel dashboard.
+if (process.env.VERCEL && !process.env.AUTH_URL) {
+  const prod = process.env.VERCEL_PROJECT_PRODUCTION_URL; // e.g. "design-directory.vercel.app"
+  if (prod) process.env.AUTH_URL = `https://${prod}`;
+}
+
 declare module "next-auth" {
   interface Session {
     user: {
@@ -30,6 +38,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   callbacks: {
     ...authConfig.callbacks,
+    async signIn({ account }) {
+      const base = process.env.AUTH_URL ?? process.env.NEXTAUTH_URL ?? "(auto-detected)";
+      console.log(`[auth] signIn provider=${account?.provider} AUTH_URL=${base} callback=${base}/api/auth/callback/${account?.provider}`);
+      return true;
+    },
     async jwt({ token, user, trigger }) {
       // On sign-in, load platform fields from DB
       if (user) {
