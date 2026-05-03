@@ -351,7 +351,7 @@ export function ProjectEditor() {
             </div>
 
             {coverWarning && (
-              <div className="flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+              <div className="flex items-center gap-2 rounded-lg border border-amber-500/20 bg-amber-500/10 px-3 py-2 text-xs text-amber-600 dark:text-amber-400">
                 <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                 {coverWarning}
               </div>
@@ -1051,7 +1051,7 @@ function ControlBtn({
       type="button"
       title={title}
       onClick={onClick}
-      className={`rounded p-1 ${danger ? "text-red-500 hover:bg-red-50" : "text-muted-foreground hover:bg-muted"}`}
+      className={`rounded p-1 ${danger ? "text-red-500 hover:bg-red-500/10" : "text-muted-foreground hover:bg-muted"}`}
     >
       {children}
     </button>

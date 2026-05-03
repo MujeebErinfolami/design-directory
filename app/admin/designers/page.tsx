@@ -60,7 +60,7 @@ export default async function AdminDesignersPage() {
                     {d.displayName}
                   </a>
                   {d.isFeatured && (
-                    <span className="rounded-full border border-violet-200 bg-violet-50 px-2 py-0.5 text-xs text-violet-700">
+                    <span className="rounded-full border border-violet-500/20 bg-violet-500/15 px-2 py-0.5 text-xs text-violet-600 dark:text-violet-400">
                       Featured
                     </span>
                   )}

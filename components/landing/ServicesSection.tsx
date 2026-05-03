@@ -14,14 +14,14 @@ const services: Service[] = [
     number: "01",
     title: "Submit Your Work",
     description:
-      "Upload a design project and have it listed with full credits — creative name, agency, tools used, and a link back to the source. Your work, properly attributed.",
+      "Upload a design project with full credits — creative name, agency, tools used, and a link back to the source. Your work, properly attributed.",
   },
   {
     icon: LayoutGrid,
     number: "02",
     title: "Creative Profiles",
     description:
-      "Build a searchable profile showcasing your portfolio, location, specialties, and availability. Get discovered by brands, studios, and recruiters looking for exactly your skills.",
+      "Build a searchable profile showcasing your portfolio, location, specialties, and availability. Get discovered by brands, studios, and recruiters.",
   },
   {
     icon: Star,
@@ -35,26 +35,26 @@ const services: Service[] = [
     number: "04",
     title: "Creative Partnerships",
     description:
-      "We connect design studios and independent creatives with brands that are serious about craft. Partnership listings give both sides a direct line to collaborate.",
+      "We connect design studios and independents with brands serious about craft. Partnership listings give both sides a direct line to collaborate.",
   },
 ];
 
 export function ServicesSection() {
   return (
-    <section
-      id="services"
-      className="border-b border-border bg-muted/30 py-24 lg:py-32"
-    >
+    <section id="services" className="border-b border-border bg-card py-24 lg:py-36">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="mb-16 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="mb-16 grid grid-cols-1 gap-8 lg:mb-20 lg:grid-cols-2">
           <div>
-            <p className="mb-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              <span className="h-px w-8 bg-foreground/30" />
+            <p className="mb-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <span className="h-px w-10 bg-muted-foreground/40" />
               Services
             </p>
-            <h2 className="text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl">
+            <h2
+              className="font-bold leading-[0.95] tracking-tight text-foreground"
+              style={{ fontSize: "clamp(2.5rem, 5.5vw, 4.5rem)" }}
+            >
               Everything you need
               <br />
               to{" "}
@@ -63,31 +63,28 @@ export function ServicesSection() {
           </div>
           <div className="flex items-end">
             <p className="max-w-sm text-base leading-relaxed text-muted-foreground">
-              From submitting a single project to building a full presence,
-              the directory gives creatives and agencies the tools to be seen
-              by the right people.
+              From submitting a single project to building a full creative presence —
+              the directory gives you the tools to be seen by the right people.
             </p>
           </div>
         </div>
 
-        {/* Cards grid */}
+        {/* 2×2 card grid with 1px separator lines */}
         <div className="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2">
           {services.map((s) => (
             <div
               key={s.title}
-              className="group flex flex-col gap-5 bg-background p-8 transition-colors hover:bg-muted/50 lg:p-10"
+              className="group flex flex-col gap-6 bg-card p-8 transition-colors duration-200 hover:bg-background lg:p-10"
             >
-              {/* Icon + number row */}
               <div className="flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-muted/60 text-foreground transition-colors group-hover:bg-foreground group-hover:text-background">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-background text-foreground transition-all duration-200 group-hover:bg-brand group-hover:border-brand group-hover:text-white">
                   <s.icon className="h-5 w-5" />
                 </div>
-                <span className="text-xs font-semibold tabular-nums text-muted-foreground/50">
+                <span className="font-mono text-xs font-semibold tabular-nums text-muted-foreground/40">
                   {s.number}
                 </span>
               </div>
 
-              {/* Text */}
               <div>
                 <h3 className="text-lg font-semibold tracking-tight text-foreground">
                   {s.title}

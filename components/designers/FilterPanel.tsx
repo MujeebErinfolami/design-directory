@@ -55,16 +55,16 @@ export function FilterPanel({
   }, [router, searchParams]);
 
   const panelContent = (
-    <div className="space-y-6">
-      {/* Header row */}
+    <div className="space-y-7">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
           Filters
         </p>
         {hasActiveFilters && (
           <button
             onClick={clearAll}
-            className="text-xs font-medium text-muted-foreground hover:text-foreground underline-offset-2 hover:underline"
+            className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
           >
             Clear all
           </button>
@@ -74,19 +74,17 @@ export function FilterPanel({
       {/* Role */}
       <div>
         <p className="mb-3 text-xs font-semibold text-foreground">Role</p>
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-1">
           {ALL_SPECIALTIES.map((s) => (
             <button
               key={s}
               onClick={() =>
-                updateParams({
-                  specialty: activeSpecialty === s ? null : s,
-                })
+                updateParams({ specialty: activeSpecialty === s ? null : s })
               }
               className={cn(
-                "w-full rounded-md px-3 py-1.5 text-left text-xs font-medium transition-colors",
+                "w-full rounded-lg px-3 py-1.5 text-left text-xs font-medium transition-colors",
                 activeSpecialty === s
-                  ? "bg-foreground text-background"
+                  ? "bg-brand text-white"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -98,22 +96,18 @@ export function FilterPanel({
 
       {/* Availability */}
       <div>
-        <p className="mb-3 text-xs font-semibold text-foreground">
-          Availability
-        </p>
-        <div className="flex flex-col gap-1.5">
+        <p className="mb-3 text-xs font-semibold text-foreground">Availability</p>
+        <div className="flex flex-col gap-1">
           {(Object.keys(AVAILABILITY_LABELS) as Availability[]).map((a) => (
             <button
               key={a}
               onClick={() =>
-                updateParams({
-                  availability: activeAvailability === a ? null : a,
-                })
+                updateParams({ availability: activeAvailability === a ? null : a })
               }
               className={cn(
-                "w-full rounded-md px-3 py-1.5 text-left text-xs font-medium transition-colors",
+                "w-full rounded-lg px-3 py-1.5 text-left text-xs font-medium transition-colors",
                 activeAvailability === a
-                  ? "bg-foreground text-background"
+                  ? "bg-brand text-white"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -125,22 +119,18 @@ export function FilterPanel({
 
       {/* Experience */}
       <div>
-        <p className="mb-3 text-xs font-semibold text-foreground">
-          Experience
-        </p>
-        <div className="flex flex-col gap-1.5">
+        <p className="mb-3 text-xs font-semibold text-foreground">Experience</p>
+        <div className="flex flex-col gap-1">
           {(Object.keys(EXPERIENCE_LABELS) as ExperienceLevel[]).map((e) => (
             <button
               key={e}
               onClick={() =>
-                updateParams({
-                  experience: activeExperience === e ? null : e,
-                })
+                updateParams({ experience: activeExperience === e ? null : e })
               }
               className={cn(
-                "w-full rounded-md px-3 py-1.5 text-left text-xs font-medium transition-colors",
+                "w-full rounded-lg px-3 py-1.5 text-left text-xs font-medium transition-colors",
                 activeExperience === e
-                  ? "bg-foreground text-background"
+                  ? "bg-brand text-white"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -159,26 +149,25 @@ export function FilterPanel({
         <button
           onClick={() => setMobileOpen((o) => !o)}
           className={cn(
-            "inline-flex items-center gap-2 rounded-md border px-3 py-2 text-xs font-semibold transition-colors",
+            "inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors",
             hasActiveFilters || mobileOpen
-              ? "border-foreground bg-foreground text-background"
-              : "border-border bg-background text-muted-foreground hover:text-foreground"
+              ? "border-brand bg-brand text-white"
+              : "border-border bg-card text-muted-foreground hover:text-foreground"
           )}
           aria-expanded={mobileOpen}
         >
           <SlidersHorizontal className="h-3.5 w-3.5" />
           Filters
           {hasActiveFilters && (
-            <span className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-background text-foreground text-[10px] font-bold">
+            <span className="ml-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-white/20 text-[10px] font-bold text-white">
               {[activeSpecialty, activeAvailability, activeExperience].filter(Boolean).length}
             </span>
           )}
         </button>
 
-        {/* Mobile drawer */}
         {mobileOpen && (
-          <div className="mt-3 rounded-xl border border-border bg-background p-5 shadow-md">
-            <div className="mb-4 flex items-center justify-between">
+          <div className="mt-3 rounded-xl border border-border bg-card p-5 shadow-lg">
+            <div className="mb-5 flex items-center justify-between">
               <p className="text-sm font-semibold text-foreground">Filters</p>
               <button
                 onClick={() => setMobileOpen(false)}
@@ -194,10 +183,8 @@ export function FilterPanel({
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block w-52 shrink-0">
-        <div className="sticky top-24">
-          {panelContent}
-        </div>
+      <aside className="hidden w-48 shrink-0 lg:block">
+        <div className="sticky top-24">{panelContent}</div>
       </aside>
     </>
   );

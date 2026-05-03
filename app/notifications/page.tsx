@@ -1,14 +1,14 @@
 import { requireAuth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PageWrapper } from "@/components/layout/PageWrapper";
-import { BackButton } from "@/components/layout/BackButton";
+import { DashboardShell } from "@/components/layout/DashboardShell";
 import { NotificationsList } from "./NotificationsList";
 
 export const metadata = { title: "Notifications" };
 
 export default async function NotificationsPage() {
   const session = await requireAuth();
-  const userId = session.user.id;
+  const { id: userId, name, email, image, accountType } = session.user;
+  const user = { name, email, image, accountType };
 
   const notifications = await prisma.notification.findMany({
     where: { userId },
@@ -16,25 +16,24 @@ export default async function NotificationsPage() {
     take: 50,
   });
 
-  // Mark all as read
   await prisma.notification.updateMany({
     where: { userId, read: false },
     data: { read: true },
   });
 
   return (
-    <PageWrapper>
-      <div className="py-12">
-        <div className="mb-6">
-          <BackButton href="/dashboard" label="Dashboard" />
-        </div>
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Notifications</h1>
-        </div>
-        <div className="max-w-2xl">
-          <NotificationsList notifications={notifications} />
-        </div>
+    <DashboardShell user={user}>
+      <div className="mb-8">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Dashboard
+        </p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Notifications
+        </h1>
       </div>
-    </PageWrapper>
+      <div className="max-w-2xl">
+        <NotificationsList notifications={notifications} />
+      </div>
+    </DashboardShell>
   );
 }

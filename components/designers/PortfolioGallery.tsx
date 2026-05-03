@@ -8,10 +8,8 @@ interface PortfolioGalleryProps {
 export function PortfolioGallery({ projects }: PortfolioGalleryProps) {
   if (projects.length === 0) {
     return (
-      <div className="rounded-xl border border-border bg-muted/30 px-6 py-10 text-center">
-        <p className="text-sm text-muted-foreground">
-          No projects listed yet.
-        </p>
+      <div className="rounded-xl border border-border bg-card px-6 py-12 text-center">
+        <p className="text-sm text-muted-foreground">No projects listed yet.</p>
       </div>
     );
   }
@@ -22,21 +20,26 @@ export function PortfolioGallery({ projects }: PortfolioGalleryProps) {
         <Link
           key={project.slug}
           href={`/projects/${project.slug}`}
-          className="group relative overflow-hidden rounded-xl border border-border transition-shadow hover:shadow-md"
+          className="group relative overflow-hidden rounded-xl border border-border transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/20"
           style={{ backgroundColor: project.thumbnailColor }}
         >
-          <div className="aspect-[4/3]">
+          <div className="aspect-[4/3] relative">
             {/* Category badge */}
-            <span className="absolute left-3 top-3 rounded-full bg-background/80 px-2.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm">
+            <span className="absolute left-3 top-3 z-10 rounded-full bg-black/40 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur-sm">
               {project.category}
             </span>
+
             {/* Year */}
-            <span className="absolute bottom-3 right-3 text-xs font-medium text-foreground/50">
+            <span className="absolute bottom-3 right-3 z-10 text-xs font-medium text-white/60">
               {project.year}
             </span>
-            {/* Hover overlay + title */}
-            <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/20 to-transparent p-3 opacity-0 transition-opacity group-hover:opacity-100">
-              <p className="text-xs font-semibold text-foreground/90">
+
+            {/* Hover overlay */}
+            <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/55" />
+
+            {/* Title on hover */}
+            <div className="absolute inset-x-0 bottom-0 flex translate-y-2 items-end p-4 opacity-0 transition-all duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+              <p className="text-sm font-semibold leading-snug text-white">
                 {project.title}
               </p>
             </div>

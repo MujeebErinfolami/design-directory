@@ -30,15 +30,15 @@ export interface Post {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 export const CATEGORY_STYLES: Record<string, string> = {
-  Branding:   "bg-stone-100 text-stone-700",
-  UX:         "bg-slate-100 text-slate-700",
-  Motion:     "bg-zinc-100 text-zinc-700",
-  Typography: "bg-orange-50 text-orange-700",
-  Process:    "bg-blue-50 text-blue-700",
-  Color:      "bg-violet-50 text-violet-700",
-  Career:     "bg-emerald-50 text-emerald-700",
-  Layout:     "bg-amber-50 text-amber-700",
-  Strategy:   "bg-rose-50 text-rose-700",
+  Branding:   "bg-stone-500/15 text-stone-600 dark:text-stone-400",
+  UX:         "bg-slate-500/15 text-slate-600 dark:text-slate-400",
+  Motion:     "bg-zinc-500/15 text-zinc-500 dark:text-zinc-400",
+  Typography: "bg-orange-500/15 text-orange-600 dark:text-orange-400",
+  Process:    "bg-blue-500/15 text-blue-600 dark:text-blue-400",
+  Color:      "bg-violet-500/15 text-violet-600 dark:text-violet-400",
+  Career:     "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+  Layout:     "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+  Strategy:   "bg-rose-500/15 text-rose-600 dark:text-rose-400",
 };
 
 export function formatPostDate(iso: string): string {

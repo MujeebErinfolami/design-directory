@@ -88,23 +88,23 @@ export function ReviewActions({ id, currentStatus }: { id: string; currentStatus
           <button
             onClick={() => setShowReject(true)}
             disabled={loading}
-            className="rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-100 disabled:opacity-50"
+            className="rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-500/20 disabled:opacity-50"
           >
             Reject
           </button>
         </div>
       )}
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
 }
 
 function StatusBadge({ status }: { status: Status }) {
   const styles: Record<Status, string> = {
-    draft:    "bg-zinc-50 text-zinc-600 border-zinc-200",
-    pending:  "bg-amber-50 text-amber-700 border-amber-200",
-    approved: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    rejected: "bg-red-50 text-red-700 border-red-200",
+    draft:    "bg-zinc-500/10 text-zinc-500 border-zinc-500/20",
+    pending:  "bg-amber-500/15 text-amber-500 dark:text-amber-400 border-amber-500/20",
+    approved: "bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 border-emerald-500/20",
+    rejected: "bg-red-500/15 text-red-500 dark:text-red-400 border-red-500/20",
   };
   const labels: Record<Status, string> = {
     draft:    "Draft",

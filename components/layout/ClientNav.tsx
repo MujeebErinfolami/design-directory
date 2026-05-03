@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AuthButton } from "./AuthButton";
 import { NotificationBell } from "./NotificationBell";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
   { href: "/projects", label: "Projects" },
@@ -27,27 +28,32 @@ export function ClientNav({ user }: Props) {
 
   return (
     <>
-      {/* Desktop nav */}
-      <nav className="hidden items-center gap-1 md:flex" aria-label="Main navigation">
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={cn(
-              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-              isActive(link.href)
-                ? "bg-muted text-foreground"
-                : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-            )}
-            aria-current={isActive(link.href) ? "page" : undefined}
-          >
-            {link.label}
-          </Link>
-        ))}
+      {/* Desktop — centered nav (absolute) */}
+      <nav
+        className="pointer-events-none absolute inset-x-0 hidden items-center justify-center md:flex"
+        aria-label="Main navigation"
+      >
+        <div className="pointer-events-auto flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+                isActive(link.href)
+                  ? "bg-muted text-foreground"
+                  : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+              )}
+              aria-current={isActive(link.href) ? "page" : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
       </nav>
 
-      {/* Desktop right side */}
-      <div className="hidden items-center gap-3 md:flex">
+      {/* Desktop — right side actions */}
+      <div className="hidden items-center gap-2 md:flex">
         <Link
           href="/submit"
           className="rounded-md bg-foreground px-4 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-80"
@@ -56,9 +62,10 @@ export function ClientNav({ user }: Props) {
         </Link>
         {user && <NotificationBell />}
         <AuthButton user={user} />
+        <ThemeToggle />
       </div>
 
-      {/* Mobile menu button */}
+      {/* Mobile — hamburger */}
       <button
         className="flex items-center justify-center rounded-md p-2 text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
         onClick={() => setMobileOpen((o) => !o)}
@@ -101,8 +108,9 @@ export function ClientNav({ user }: Props) {
           >
             Submit Project
           </Link>
-          <div className="mt-2 px-3 py-1">
+          <div className="mt-2 flex items-center justify-between px-1">
             <AuthButton user={user} />
+            <ThemeToggle />
           </div>
         </nav>
       </div>

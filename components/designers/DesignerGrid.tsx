@@ -8,8 +8,8 @@ interface DesignerGridProps {
 export function DesignerGrid({ designers }: DesignerGridProps) {
   if (designers.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-lg font-semibold text-foreground">No designers found</p>
+      <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-24 text-center">
+        <p className="text-lg font-semibold text-foreground">No creatives found</p>
         <p className="mt-2 text-sm text-muted-foreground">
           Try adjusting your search or filters.
         </p>

@@ -195,7 +195,7 @@ function EditorLayout({ project }: { project: Project }) {
         {/* Downloadable attachments */}
         {project.attachments.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Downloads
             </p>
             {project.attachments.map((a, i) => (
@@ -336,13 +336,15 @@ function EditorBlockRenderer({ block }: { block: ContentBlock }) {
 
 function DesignerCTA({ project }: { project: Project }) {
   return (
-    <div className="mt-10 rounded-xl border border-border bg-muted/30 p-6">
-      <p className="text-sm text-muted-foreground">Created by</p>
-      <p className="mt-1 text-lg font-semibold text-foreground">{project.designer.name}</p>
+    <div className="mt-10 rounded-xl border border-border bg-card p-6">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        Created by
+      </p>
+      <p className="mt-2 text-xl font-bold text-foreground">{project.designer.name}</p>
       {project.designer.slug && (
         <Link
           href={`/designers/${project.designer.slug}`}
-          className="mt-4 inline-flex items-center gap-2 rounded-md bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
+          className="mt-4 inline-flex items-center gap-2 rounded-lg bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-80"
         >
           View Creative Profile
         </Link>

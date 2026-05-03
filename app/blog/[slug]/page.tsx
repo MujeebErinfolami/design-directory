@@ -43,7 +43,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const related = await getRelatedPosts(post, 3);
-  const categoryStyle = CATEGORY_STYLES[post.category] ?? "bg-zinc-100 text-zinc-700";
+  const categoryStyle = CATEGORY_STYLES[post.category] ?? "bg-zinc-500/15 text-zinc-500 dark:text-zinc-400";
 
   return (
     <PageWrapper>
@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         <div className="mt-16 text-center">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 rounded-md border border-border px-5 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
           >
             Browse all articles
           </Link>

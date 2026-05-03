@@ -194,7 +194,7 @@ export function SubmitForm() {
         ))}
       </div>
 
-      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
+      {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-500">{error}</p>}
 
       <div className="flex items-center justify-between border-t border-border pt-6">
         <p className="text-sm text-muted-foreground">All submissions are reviewed before publishing.</p>

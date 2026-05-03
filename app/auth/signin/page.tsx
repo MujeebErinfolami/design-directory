@@ -11,25 +11,42 @@ function SignInContent() {
 
   return (
     <main className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
-      <div className="w-full max-w-sm space-y-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight">Sign in</h1>
+      <div className="w-full max-w-sm">
+        {/* Brand mark */}
+        <div className="mb-10 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            Rightstar Collective
+          </p>
+          <h1 className="mt-4 text-2xl font-bold tracking-tight text-foreground">
+            Sign in
+          </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Use your Google account to continue
           </p>
         </div>
 
-        <button
-          onClick={() => signIn("google", { callbackUrl: safe })}
-          className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-semibold shadow-sm transition-colors hover:bg-muted"
-        >
-          <GoogleIcon />
-          Continue with Google
-        </button>
+        {/* Card */}
+        <div className="rounded-2xl border border-border bg-card p-6">
+          <button
+            onClick={() => signIn("google", { callbackUrl: safe })}
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-background px-4 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:border-foreground/20 hover:shadow-md hover:shadow-black/10"
+          >
+            <GoogleIcon />
+            Continue with Google
+          </button>
 
-        <p className="text-center text-xs text-muted-foreground">
-          By signing in you agree to our terms of service and privacy policy.
-        </p>
+          <p className="mt-5 text-center text-xs text-muted-foreground">
+            By signing in you agree to our{" "}
+            <span className="underline underline-offset-2 cursor-pointer hover:text-foreground">
+              terms of service
+            </span>{" "}
+            and{" "}
+            <span className="underline underline-offset-2 cursor-pointer hover:text-foreground">
+              privacy policy
+            </span>
+            .
+          </p>
+        </div>
       </div>
     </main>
   );

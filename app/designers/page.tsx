@@ -77,29 +77,31 @@ export default async function DesignersPage({ searchParams }: PageProps) {
   return (
     <PageWrapper>
       {/* Page header */}
-      <div className="mb-8 border-b border-border pb-8">
-        <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          <span className="h-px w-8 bg-foreground/30" />
+      <div className="mb-10 border-b border-border pb-10">
+        <p className="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span className="h-px w-10 bg-muted-foreground/40" />
           Rightstar Collective
         </p>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1
+          className="font-bold leading-[0.95] tracking-tight text-foreground"
+          style={{ fontSize: "clamp(2.75rem, 6vw, 5.5rem)" }}
+        >
           Creatives
         </h1>
-        <p className="mt-3 max-w-xl text-base text-muted-foreground">
+        <p className="mt-4 max-w-xl text-base text-muted-foreground">
           Discover talented creatives by role, availability, and location.
         </p>
       </div>
 
-      {/* Search + sort bar */}
+      {/* Full-width search bar */}
       <div className="mb-8">
         <Suspense>
           <SearchBar value={q} total={designers.length} sort={sort} />
         </Suspense>
       </div>
 
-      {/* Two-column layout: sidebar + grid */}
-      <div className="flex gap-10">
-        {/* Filter sidebar */}
+      {/* Filter pill row on mobile, then sidebar + grid */}
+      <div className="flex gap-8">
         <Suspense>
           <FilterPanel
             activeSpecialty={activeSpecialty}
@@ -109,7 +111,6 @@ export default async function DesignersPage({ searchParams }: PageProps) {
           />
         </Suspense>
 
-        {/* Designer grid */}
         <div className="min-w-0 flex-1">
           <DesignerGrid designers={designers} />
         </div>

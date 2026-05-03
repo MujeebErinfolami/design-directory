@@ -17,11 +17,7 @@ interface ProjectFiltersProps {
   total: number;
 }
 
-export function ProjectFilters({
-  activeCategory,
-  activeSort,
-  total,
-}: ProjectFiltersProps) {
+export function ProjectFilters({ activeCategory, activeSort, total }: ProjectFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -42,15 +38,15 @@ export function ProjectFilters({
 
   return (
     <div className="flex flex-col gap-4 border-b border-border pb-6 sm:flex-row sm:items-center sm:justify-between">
-      {/* Category pills */}
-      <div className="flex flex-wrap items-center gap-2">
+      {/* Category tabs — horizontally scrollable on mobile */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
         <button
           onClick={() => updateParams({ category: null })}
           className={cn(
-            "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+            "shrink-0 rounded-lg px-4 py-2 text-xs font-semibold transition-colors",
             activeCategory === null
-              ? "border-foreground bg-foreground text-background"
-              : "border-border bg-background text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+              ? "bg-brand text-white"
+              : "text-muted-foreground hover:bg-muted hover:text-foreground"
           )}
         >
           All
@@ -59,15 +55,13 @@ export function ProjectFilters({
           <button
             key={cat}
             onClick={() =>
-              updateParams({
-                category: activeCategory === cat ? null : cat,
-              })
+              updateParams({ category: activeCategory === cat ? null : cat })
             }
             className={cn(
-              "rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors",
+              "shrink-0 rounded-lg px-4 py-2 text-xs font-semibold transition-colors",
               activeCategory === cat
-                ? "border-foreground bg-foreground text-background"
-                : "border-border bg-background text-muted-foreground hover:border-foreground/40 hover:text-foreground"
+                ? "bg-brand text-white"
+                : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
             {cat}
@@ -75,17 +69,15 @@ export function ProjectFilters({
         ))}
       </div>
 
-      {/* Sort + count */}
-      <div className="flex items-center gap-4">
-        <span className="shrink-0 text-xs text-muted-foreground">
+      {/* Count + sort */}
+      <div className="flex shrink-0 items-center gap-4">
+        <span className="text-xs text-muted-foreground">
           {total} {total === 1 ? "project" : "projects"}
         </span>
         <select
           value={activeSort}
-          onChange={(e) =>
-            updateParams({ sort: e.target.value as SortOption })
-          }
-          className="rounded-md border border-border bg-background py-1.5 pl-3 pr-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          onChange={(e) => updateParams({ sort: e.target.value as SortOption })}
+          className="rounded-lg border border-border bg-card py-2 pl-3 pr-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           aria-label="Sort projects"
         >
           {SORT_OPTIONS.map((o) => (

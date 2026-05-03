@@ -1,14 +1,15 @@
 import { requireOnboarded } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { PageWrapper } from "@/components/layout/PageWrapper";
-import { BackButton } from "@/components/layout/BackButton";
+import Link from "next/link";
+import { DashboardShell } from "@/components/layout/DashboardShell";
 import { DesignerProfileForm, AgencyProfileForm } from "./ProfileForm";
 
 export const metadata = { title: "Edit Profile" };
 
 export default async function ProfilePage() {
   const session = await requireOnboarded();
-  const { id: userId, accountType } = session.user;
+  const { id: userId, accountType, name, email, image } = session.user;
+  const user = { name, email, image, accountType };
 
   if (accountType === "designer") {
     const profile = await prisma.designerProfile.findUniqueOrThrow({ where: { userId } });
@@ -33,25 +34,28 @@ export default async function ProfilePage() {
       contactDribbble: profile.contactDribbble,
     };
     return (
-      <PageWrapper>
-        <div className="py-12">
-          <div className="mb-6">
-            <BackButton href="/dashboard" label="Dashboard" />
-          </div>
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold tracking-tight">Edit Profile</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Your public creative profile.{" "}
-              <a href={`/designers/${profile.slug}`} className="underline hover:no-underline">
-                View public page →
-              </a>
-            </p>
-          </div>
-          <div className="max-w-2xl">
-            <DesignerProfileForm initial={initial} />
-          </div>
+      <DashboardShell user={user}>
+        <div className="mb-8">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            Dashboard
+          </p>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Edit Profile
+          </h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Your public creative profile.{" "}
+            <Link
+              href={`/designers/${profile.slug}`}
+              className="text-brand underline underline-offset-2 hover:no-underline"
+            >
+              View public page →
+            </Link>
+          </p>
         </div>
-      </PageWrapper>
+        <div className="max-w-2xl">
+          <DesignerProfileForm initial={initial} />
+        </div>
+      </DashboardShell>
     );
   }
 
@@ -74,19 +78,19 @@ export default async function ProfilePage() {
     contactDribbble: profile.contactDribbble,
   };
   return (
-    <PageWrapper>
-      <div className="py-12">
-        <div className="mb-6">
-          <BackButton href="/dashboard" label="Dashboard" />
-        </div>
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Edit Agency Profile</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Your public agency profile.</p>
-        </div>
-        <div className="max-w-2xl">
-          <AgencyProfileForm initial={initial} />
-        </div>
+    <DashboardShell user={user}>
+      <div className="mb-8">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          Dashboard
+        </p>
+        <h1 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          Edit Agency Profile
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">Your public agency profile.</p>
       </div>
-    </PageWrapper>
+      <div className="max-w-2xl">
+        <AgencyProfileForm initial={initial} />
+      </div>
+    </DashboardShell>
   );
 }

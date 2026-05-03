@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "Browse thousands of credited design projects — branding, web, motion, print, product, and UX.",
+    "Browse credited design projects — branding, web, motion, print, product, and UX.",
   openGraph: {
     title: "Projects — Rightstar Collective",
     description:
@@ -44,22 +44,24 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
   return (
     <PageWrapper>
       {/* Page header */}
-      <div className="mb-10 border-b border-border pb-8">
-        <p className="mb-3 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-          <span className="h-px w-8 bg-foreground/30" />
+      <div className="mb-10 border-b border-border pb-10">
+        <p className="mb-6 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          <span className="h-px w-10 bg-muted-foreground/40" />
           Rightstar Collective
         </p>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1
+          className="font-bold leading-[0.95] tracking-tight text-foreground"
+          style={{ fontSize: "clamp(2.75rem, 6vw, 5.5rem)" }}
+        >
           Projects
         </h1>
-        <p className="mt-3 max-w-xl text-base text-muted-foreground">
-          Credited creative work from independent creatives and leading studios
-          worldwide.
+        <p className="mt-4 max-w-xl text-base text-muted-foreground">
+          Credited creative work from independent creatives and leading studios worldwide.
         </p>
       </div>
 
-      {/* Filters — wrapped in Suspense because useSearchParams requires it */}
-      <Suspense fallback={<div className="h-12 border-b border-border" />}>
+      {/* Category filter tabs */}
+      <Suspense fallback={<div className="h-14 border-b border-border" />}>
         <ProjectFilters
           activeCategory={activeCategory}
           activeSort={activeSort}
@@ -67,7 +69,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
         />
       </Suspense>
 
-      {/* Grid */}
+      {/* Masonry grid */}
       <div className="mt-8">
         <ProjectGrid projects={projects} />
       </div>

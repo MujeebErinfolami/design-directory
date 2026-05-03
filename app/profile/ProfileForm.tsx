@@ -269,8 +269,8 @@ export function DesignerProfileForm({ initial }: { initial: DesignerProfile }) {
         </div>
       </Section>
 
-      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-      {success && <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">Profile saved successfully.</p>}
+      {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-500">{error}</p>}
+      {success && <p className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">Profile saved successfully.</p>}
 
       <div className="flex justify-end">
         <button
@@ -449,8 +449,8 @@ export function AgencyProfileForm({ initial }: { initial: AgencyProfile }) {
         </div>
       </Section>
 
-      {error && <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-      {success && <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">Profile saved successfully.</p>}
+      {error && <p className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-500">{error}</p>}
+      {success && <p className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">Profile saved successfully.</p>}
 
       <div className="flex justify-end">
         <button

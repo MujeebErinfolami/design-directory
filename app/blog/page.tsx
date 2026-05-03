@@ -38,7 +38,10 @@ export default async function BlogIndexPage() {
           <span className="h-px w-8 bg-foreground/30" />
           Rightstar Collective
         </p>
-        <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+        <h1
+          className="font-bold leading-[0.95] tracking-tight text-foreground"
+          style={{ fontSize: "clamp(2.75rem, 6vw, 5.5rem)" }}
+        >
           Blog
         </h1>
         <p className="mt-3 max-w-xl text-base text-muted-foreground">
@@ -55,14 +58,14 @@ export default async function BlogIndexPage() {
           </p>
           <Link
             href={`/blog/${featured.slug}`}
-            className="group flex flex-col gap-6 overflow-hidden rounded-xl border border-border bg-background p-8 transition-colors hover:bg-muted/40 sm:flex-row sm:items-start sm:gap-10 lg:p-10"
+            className="group flex flex-col gap-6 overflow-hidden rounded-xl border border-border bg-card p-8 transition-all duration-200 hover:border-foreground/20 hover:shadow-lg hover:shadow-black/10 sm:flex-row sm:items-start sm:gap-10 lg:p-10"
           >
             {/* Left: category + title + excerpt */}
             <div className="flex-1 min-w-0">
               <span
                 className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                   CATEGORY_STYLES[featured.category] ??
-                  "bg-zinc-100 text-zinc-700"
+                  "bg-zinc-500/15 text-zinc-500 dark:text-zinc-400"
                 }`}
               >
                 {featured.category}

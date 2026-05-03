@@ -82,7 +82,7 @@ export function GalleryUpload({ urls, onChange, max = 12 }: GalleryUploadProps) 
       <p className="mt-2 text-xs text-muted-foreground">
         {urls.length} / {max} images
       </p>
-      {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
 
       <input
         ref={inputRef}

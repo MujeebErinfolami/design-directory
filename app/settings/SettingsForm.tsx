@@ -70,11 +70,11 @@ export function SettingsForm({ name, email }: Props) {
 
       {/* Danger zone */}
       <section>
-        <h2 className="mb-4 text-base font-semibold text-red-600">Danger Zone</h2>
-        <div className="rounded-xl border border-red-200 p-5">
+        <h2 className="mb-4 text-base font-semibold text-red-500">Danger Zone</h2>
+        <div className="rounded-xl border border-red-500/20 p-5">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-sm font-medium">Delete account</p>
+              <p className="text-sm font-medium text-foreground">Delete account</p>
               <p className="mt-0.5 text-xs text-muted-foreground">
                 Permanently delete your account and all associated data. This cannot be undone.
               </p>
@@ -82,7 +82,7 @@ export function SettingsForm({ name, email }: Props) {
             {!confirmDelete && (
               <button
                 onClick={() => setConfirmDelete(true)}
-                className="shrink-0 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-medium text-red-700 transition-colors hover:bg-red-100"
+                className="shrink-0 rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-500 transition-colors hover:bg-red-500/20"
               >
                 Delete account
               </button>
@@ -90,8 +90,8 @@ export function SettingsForm({ name, email }: Props) {
           </div>
 
           {confirmDelete && (
-            <div className="mt-4 space-y-3 border-t border-red-200 pt-4">
-              <p className="text-sm text-red-700">
+            <div className="mt-4 space-y-3 border-t border-red-500/20 pt-4">
+              <p className="text-sm text-red-500">
                 Type <strong>DELETE</strong> to confirm.
               </p>
               <input
@@ -99,20 +99,20 @@ export function SettingsForm({ name, email }: Props) {
                 value={deleteInput}
                 onChange={(e) => setDeleteInput(e.target.value)}
                 placeholder="DELETE"
-                className="w-full rounded-lg border border-red-200 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
+                className="w-full rounded-lg border border-red-500/20 bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/30"
               />
-              {error && <p className="text-xs text-red-600">{error}</p>}
+              {error && <p className="text-xs text-red-500">{error}</p>}
               <div className="flex gap-2">
                 <button
                   onClick={handleDeleteAccount}
                   disabled={deleteInput !== "DELETE" || deleting}
-                  className="rounded-lg bg-red-600 px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-80 disabled:opacity-40"
+                  className="rounded-lg bg-red-500 px-4 py-2 text-xs font-semibold text-white transition-opacity hover:opacity-80 disabled:opacity-40"
                 >
                   {deleting ? "Deleting…" : "Confirm delete"}
                 </button>
                 <button
                   onClick={() => { setConfirmDelete(false); setDeleteInput(""); }}
-                  className="rounded-lg border border-border px-4 py-2 text-xs font-medium hover:border-foreground/40 transition-colors"
+                  className="rounded-lg border border-border px-4 py-2 text-xs font-medium transition-colors hover:border-foreground/40"
                 >
                   Cancel
                 </button>

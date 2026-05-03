@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { getAllProjects } from "@/lib/data/projects";
+import { FooterParallaxStrip } from "./FooterParallaxStrip";
 
 const footerLinks = {
   Discover: [
@@ -10,7 +12,7 @@ const footerLinks = {
     { href: "/", label: "Home" },
     { href: "/#about", label: "About" },
     { href: "/#services", label: "Services" },
-    { href: "/#blog", label: "Submit Project" },
+    { href: "/submit", label: "Submit Project" },
   ],
 };
 
@@ -20,28 +22,35 @@ const socialLinks = [
   { href: "https://linkedin.com", label: "LinkedIn" },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const allProjects = await getAllProjects();
+  const stripProjects = allProjects.slice(0, 10);
+
   return (
     <footer className="mt-auto border-t border-border bg-background">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      {/* Horizontal parallax strip */}
+      <FooterParallaxStrip projects={stripProjects} />
+
+      {/* Footer links */}
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="col-span-2 md:col-span-2">
             <Link href="/" className="text-lg font-bold text-foreground">
               Rightstar Collective
             </Link>
-            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Discover the world&apos;s best creative work. Browse projects,
               find creatives, and connect with talent everywhere.
             </p>
-            <div className="mt-4 flex gap-4">
+            <div className="mt-5 flex gap-4">
               {socialLinks.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {s.label}
                 </a>
@@ -52,13 +61,15 @@ export function SiteFooter() {
           {/* Link groups */}
           {Object.entries(footerLinks).map(([group, links]) => (
             <div key={group}>
-              <p className="text-sm font-semibold text-foreground">{group}</p>
-              <ul className="mt-3 space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.15em] text-foreground">
+                {group}
+              </p>
+              <ul className="mt-4 space-y-2.5">
                 {links.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
                       {link.label}
                     </Link>
@@ -69,7 +80,7 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-10 border-t border-border pt-6 text-center text-xs text-muted-foreground">
+        <div className="mt-12 border-t border-border pt-6 text-center text-xs text-muted-foreground">
           &copy; {new Date().getFullYear()} Rightstar Collective. All rights reserved.
         </div>
       </div>

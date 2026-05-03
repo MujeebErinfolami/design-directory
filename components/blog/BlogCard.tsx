@@ -8,10 +8,10 @@ interface BlogCardProps {
 
 export function BlogCard({ post }: BlogCardProps) {
   const categoryStyle =
-    CATEGORY_STYLES[post.category] ?? "bg-zinc-100 text-zinc-700";
+    CATEGORY_STYLES[post.category] ?? "bg-zinc-500/15 text-zinc-500 dark:text-zinc-400";
 
   return (
-    <article className="group flex flex-col bg-background p-8 transition-colors hover:bg-muted/40">
+    <article className="group flex flex-col bg-background p-8 transition-colors duration-200 hover:bg-card">
       {/* Category + date */}
       <div className="flex items-center justify-between">
         <span

@@ -75,7 +75,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
         <div className="grid grid-cols-2 gap-4">
           <button
             onClick={() => { setAccountType("designer"); setStep("profile"); }}
-            className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border bg-background p-6 text-center transition-all hover:border-foreground hover:shadow-md"
+            className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all duration-200 hover:border-brand/40 hover:shadow-md hover:shadow-black/10"
           >
             <span className="text-3xl">🎨</span>
             <div>
@@ -88,7 +88,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
 
           <button
             onClick={() => { setAccountType("agency"); setStep("profile"); }}
-            className="group flex flex-col items-center gap-3 rounded-xl border-2 border-border bg-background p-6 text-center transition-all hover:border-foreground hover:shadow-md"
+            className="group flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-6 text-center transition-all duration-200 hover:border-brand/40 hover:shadow-md hover:shadow-black/10"
           >
             <span className="text-3xl">🏢</span>
             <div>
@@ -206,7 +206,7 @@ export function OnboardingForm({ userName }: { userName: string }) {
         </div>
 
         {error && (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+          <p className="rounded-md bg-red-500/10 px-3 py-2 text-sm text-red-500">{error}</p>
         )}
 
         <button

@@ -1,33 +1,31 @@
 import type { Project } from "@/lib/data/projects";
 
-interface ProjectHeroProps {
-  project: Project;
-}
-
-export function ProjectHero({ project }: ProjectHeroProps) {
+export function ProjectHero({ project }: { project: Project }) {
   return (
     <div className="relative overflow-hidden border-b border-border">
-      {/* Hero image or colour fallback */}
       {project.thumbnailUrl ? (
-        <div className="relative min-h-72 lg:min-h-[480px]">
+        <div className="relative min-h-80 lg:min-h-[560px]">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.thumbnailUrl}
             alt={project.title}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          {/* Dark scrim for text legibility */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-          <div className="relative flex min-h-72 items-end px-4 pb-10 pt-20 sm:px-6 lg:min-h-[480px] lg:px-8">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="relative flex min-h-80 items-end px-4 pb-12 pt-24 sm:px-6 lg:min-h-[560px] lg:px-8">
             <HeroContent project={project} light />
           </div>
         </div>
       ) : (
         <div
-          className="flex min-h-72 items-end px-4 pb-10 pt-20 sm:px-6 lg:min-h-96 lg:px-8"
+          className="relative flex min-h-80 items-end px-4 pb-12 pt-24 sm:px-6 lg:min-h-[480px] lg:px-8"
           style={{ backgroundColor: project.thumbnailColor }}
         >
-          <HeroContent project={project} />
+          {/* Subtle bottom gradient so text is legible on any color */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+          <div className="relative w-full">
+            <HeroContent project={project} light />
+          </div>
         </div>
       )}
     </div>
@@ -35,35 +33,31 @@ export function ProjectHero({ project }: ProjectHeroProps) {
 }
 
 function HeroContent({ project, light }: { project: Project; light?: boolean }) {
-  const text = light ? "text-white" : "text-foreground";
-  const muted = light ? "text-white/70" : "text-foreground/70";
-  const badge = light ? "bg-white/20 text-white backdrop-blur-sm" : "bg-background/80 text-foreground backdrop-blur-sm";
-  const featuredBadge = light ? "bg-white text-foreground" : "bg-foreground text-background";
-
   return (
     <div className="mx-auto w-full max-w-7xl">
-      <div className="flex items-center gap-3">
-        <span className={`rounded-full px-3 py-1 text-xs font-semibold ${badge}`}>
+      <div className="mb-4 flex items-center gap-3">
+        <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
           {project.category}
         </span>
         {project.featured && (
-          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${featuredBadge}`}>
+          <span className="rounded-full bg-white/25 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
             Featured
           </span>
         )}
       </div>
 
-      <h1 className={`mt-4 max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl ${text}`}>
+      <h1
+        className="font-bold leading-[0.95] tracking-tight text-white"
+        style={{ fontSize: "clamp(2rem, 5.5vw, 5rem)" }}
+      >
         {project.title}
       </h1>
 
       {project.tagline && (
-        <p className={`mt-3 max-w-2xl text-lg font-light ${muted}`}>{project.tagline}</p>
+        <p className="mt-3 max-w-2xl text-lg font-light text-white/75">
+          {project.tagline}
+        </p>
       )}
-
-      <p className={`mt-3 max-w-2xl text-base leading-relaxed sm:text-lg ${muted}`}>
-        {project.description}
-      </p>
     </div>
   );
 }

@@ -48,38 +48,38 @@ export function SearchBar({ value, total, sort }: SearchBarProps) {
   );
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      {/* Search input */}
-      <div className="relative flex-1 max-w-md">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      {/* Search input — full width */}
+      <div className="relative flex-1">
+        <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <input
           type="search"
           defaultValue={value}
           onChange={handleSearch}
-          placeholder="Search by name, skill, location…"
-          className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-9 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          placeholder="Search by name, role, location…"
+          className="h-12 w-full rounded-xl border border-border bg-card py-3 pl-11 pr-10 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-ring transition-colors"
           aria-label="Search designers"
         />
         {value && (
           <button
             onClick={() => updateParams({ q: null })}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors hover:text-foreground"
             aria-label="Clear search"
           >
-            <X className="h-3.5 w-3.5" />
+            <X className="h-4 w-4" />
           </button>
         )}
       </div>
 
       {/* Count + sort */}
-      <div className="flex items-center gap-4 shrink-0">
+      <div className="flex shrink-0 items-center gap-4">
         <span className="text-xs text-muted-foreground">
           {total} {total === 1 ? "creative" : "creatives"}
         </span>
         <select
           value={sort}
           onChange={(e) => updateParams({ sort: e.target.value })}
-          className="rounded-md border border-border bg-background py-1.5 pl-3 pr-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+          className="rounded-lg border border-border bg-card py-2 pl-3 pr-8 text-xs font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           aria-label="Sort creatives"
         >
           {SORT_OPTIONS.map((o) => (

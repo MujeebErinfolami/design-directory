@@ -30,13 +30,13 @@ export default async function AdminPage() {
             key={label}
             href={href}
             className={`group rounded-xl border p-5 transition-shadow hover:shadow-md ${
-              highlight ? "border-amber-200 bg-amber-50" : "border-border bg-background"
+              highlight ? "border-amber-500/20 bg-amber-500/10" : "border-border bg-background"
             }`}
           >
-            <p className={`text-3xl font-bold tabular-nums ${highlight ? "text-amber-700" : ""}`}>
+            <p className={`text-3xl font-bold tabular-nums ${highlight ? "text-amber-500 dark:text-amber-400" : ""}`}>
               {value}
             </p>
-            <p className={`mt-1 text-sm ${highlight ? "text-amber-600" : "text-muted-foreground"}`}>
+            <p className={`mt-1 text-sm ${highlight ? "text-amber-500 dark:text-amber-400" : "text-muted-foreground"}`}>
               {label}
             </p>
           </Link>

@@ -36,13 +36,13 @@ export function VerifyToggle({ id, isVerified }: { id: string; isVerified: boole
         disabled={loading}
         className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors disabled:opacity-50 ${
           verified
-            ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+            ? "border-emerald-500/20 bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/25"
             : "border-border bg-background text-muted-foreground hover:border-foreground/40 hover:text-foreground"
         }`}
       >
         {loading ? "…" : verified ? "✓ Verified" : "Verify"}
       </button>
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
 }

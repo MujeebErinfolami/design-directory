@@ -65,13 +65,13 @@ export function BadgePanel({
           );
         })}
       </div>
-      {error && <p className="text-xs text-red-600">{error}</p>}
+      {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
   );
 }
 
 const badgeActiveClass: Record<BadgeType, string> = {
-  featured:     "border-violet-200 bg-violet-50 text-violet-700 hover:bg-violet-100",
-  editors_pick: "border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100",
-  best_of_year: "border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100",
+  featured:     "border-violet-500/20 bg-violet-500/15 text-violet-600 dark:text-violet-400 hover:bg-violet-500/25",
+  editors_pick: "border-blue-500/20 bg-blue-500/15 text-blue-600 dark:text-blue-400 hover:bg-blue-500/25",
+  best_of_year: "border-amber-500/20 bg-amber-500/15 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25",
 };
